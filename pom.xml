@@ -11,9 +11,8 @@
 
     <modules>
         <module>apresentacao</module>
-        <module>aplicacao</module>
         <module>dominio</module>
-        <module>infraestrutra</module>
+        <module>persistencia</module>
     </modules>
 
     <properties>

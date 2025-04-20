@@ -6,13 +6,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.capibyte.acervo</groupId>
-    <artifactId>infraestrutra</artifactId>
+    <artifactId>persistencia</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>infraestrutra</name>
-    <description>infraestrutra</description>
+    <name>persistencia</name>
+    <description></description>
     <url/>
     <licenses>
         <license/>

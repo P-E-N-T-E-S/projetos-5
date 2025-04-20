@@ -1,0 +1,17 @@
+Domain SistemaGerenciamentoAcervo{
+    Subdomain Acervo
+    Subdomain Opiniao
+
+}
+
+ContextMap{
+    contains Acervo
+    contains Academia
+}
+
+BoundedContext Acervo implements Acervo{
+    Aggregate Livro{
+        Entity Livro{
+            aggregateRoot
+    }
+}

@@ -1,4 +1,4 @@
-package com.capibyte.acervo.infraestrutra;
+package com.capibyte.acervo.persistencia;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
