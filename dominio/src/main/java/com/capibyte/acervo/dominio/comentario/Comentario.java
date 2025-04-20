@@ -1,0 +1,38 @@
+package com.capibyte.acervo.dominio.comentario;
+
+import com.capibyte.acervo.dominio.acervo.Livro;
+import com.capibyte.acervo.dominio.administracao.Usuario;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+public class Comentario {
+    private final ComentarioId id;
+    private final Livro isbn;
+    private final String conteudo;
+    private final LocalDateTime dataCriacao;
+    private final Usuario usuario;
+
+    public Comentario(ComentarioId id, Livro isbn, String conteudo, LocalDateTime dataCriacao, Usuario usuario) throws Exception {
+        this.id = id;
+        this.isbn = isbn;
+        this.conteudo = validarConteudo(conteudo);
+        this.dataCriacao = dataCriacao;
+        this.usuario = usuario;
+    }
+
+    private String validarConteudo(String conteudo) throws Exception {
+        Objects.requireNonNull(conteudo, "Conteúdo não pode ser nulo");
+
+        String conteudoTrimmed = conteudo.trim();
+
+        if (conteudoTrimmed.isEmpty()) {
+            throw new Exception("Conteúdo do comentário não pode ser vazio");
+        }
+
+        if (conteudoTrimmed.length() > 1000) {
+            throw new Exception("Comentário não pode exceder 1000 caracteres");
+        }
+
+        return conteudoTrimmed;
+    }
+}
