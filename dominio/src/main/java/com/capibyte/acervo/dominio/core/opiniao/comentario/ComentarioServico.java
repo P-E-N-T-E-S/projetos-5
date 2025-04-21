@@ -1,4 +1,4 @@
-package com.capibyte.acervo.dominio.comentario;
+package com.capibyte.acervo.dominio.core.opiniao.comentario;
 
 import org.springframework.stereotype.Service;
 

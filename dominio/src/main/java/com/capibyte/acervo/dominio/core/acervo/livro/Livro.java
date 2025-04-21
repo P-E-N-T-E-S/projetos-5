@@ -1,4 +1,4 @@
-package com.capibyte.acervo.dominio.acervo;
+package com.capibyte.acervo.dominio.core.acervo.livro;
 
 public class Livro {
     private final Isbn isbn;

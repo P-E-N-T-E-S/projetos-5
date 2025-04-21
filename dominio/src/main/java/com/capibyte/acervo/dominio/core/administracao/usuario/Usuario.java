@@ -1,6 +1,7 @@
-package com.capibyte.acervo.dominio.administracao;
+package com.capibyte.acervo.dominio.core.administracao.usuario;
 
 public class Usuario {
+    private final
     private final String nome;
     private final String email;
     private final String senha;

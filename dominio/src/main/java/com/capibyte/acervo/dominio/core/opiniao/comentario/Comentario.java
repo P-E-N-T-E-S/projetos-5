@@ -1,7 +1,7 @@
-package com.capibyte.acervo.dominio.comentario;
+package com.capibyte.acervo.dominio.core.opiniao.comentario;
 
-import com.capibyte.acervo.dominio.acervo.Livro;
-import com.capibyte.acervo.dominio.administracao.Usuario;
+import com.capibyte.acervo.dominio.core.acervo.livro.Livro;
+import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
