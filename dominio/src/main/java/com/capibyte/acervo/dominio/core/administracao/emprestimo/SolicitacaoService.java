@@ -1,6 +1,5 @@
-package com.capibyte.acervo.dominio.core.administracao.solicitacao;
+package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
-import com.capibyte.acervo.dominio.core.acervo.exemplar.EmprestimoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

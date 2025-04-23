@@ -1,5 +1,7 @@
-package com.capibyte.acervo.dominio.core.acervo.exemplar;
+package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
+import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
+import com.capibyte.acervo.dominio.core.acervo.exemplar.Periodo;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 
 import static org.apache.commons.lang3.Validate.notBlank;

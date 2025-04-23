@@ -1,4 +1,4 @@
-package com.capibyte.acervo.dominio.core.administracao.solicitacao;
+package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;

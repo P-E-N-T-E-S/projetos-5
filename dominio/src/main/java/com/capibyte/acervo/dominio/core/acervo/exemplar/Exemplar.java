@@ -1,11 +1,10 @@
 package com.capibyte.acervo.dominio.core.acervo.exemplar;
 
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
+import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Exemplar {
     private ExemplarId exemplarId;
