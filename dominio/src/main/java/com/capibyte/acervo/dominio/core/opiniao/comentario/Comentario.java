@@ -44,4 +44,8 @@ public class Comentario {
         }
         return conteudoTrimmed;
     }
+
+    public boolean ehProfessor() {
+        return Objects.equals(usuario.getCargo().getTitulo(), "Professor");
+    }
 }
