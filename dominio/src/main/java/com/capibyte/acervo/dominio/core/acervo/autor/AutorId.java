@@ -23,7 +23,7 @@ public class AutorId {
 
     @Override
     public boolean equals(Object o) {
-        if (o != null && o instanceof AutorId) {
+        if (o instanceof AutorId) {
             var instance = (AutorId) o;
             return Objects.equals(id, instance.getId());
         }
