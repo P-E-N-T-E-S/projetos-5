@@ -1,7 +1,7 @@
-package com.capibyte.acervo.dominio.core.opiniao.comentario;
+package com.capibyte.acervo.dominio.core.opiniao;
 
 import com.capibyte.acervo.dominio.core.acervo.livro.Livro;
-import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
+import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,21 +10,21 @@ public class Comentario {
     private final Livro isbn;
     private final String conteudo;
     private final LocalDateTime dataCriacao;
-    private final Usuario usuario;
+    private final Matricula codigo;
 
-    public Comentario(ComentarioId id, Livro isbn, Usuario usuario,LocalDateTime dataCriacao, String conteudo) throws Exception {
+    public Comentario(ComentarioId id, Livro isbn, Matricula codigo, LocalDateTime dataCriacao, String conteudo) throws Exception {
         this.id = id;
         this.isbn = isbn;
-        this.usuario = usuario;
+        this.codigo = codigo;
         this.dataCriacao = dataCriacao;
         this.conteudo = conteudo;
     }
 
-    public static Comentario criar(Livro livro, Usuario usuario, String conteudo) throws Exception {
+    public static Comentario criar(Livro livro, Matricula codigo, String conteudo) throws Exception {
         return new Comentario(
                 ComentarioId.gerar(),
                 livro,
-                usuario,
+                codigo,
                 LocalDateTime.now(),
                 validarConteudo(conteudo)
         );
@@ -43,9 +43,5 @@ public class Comentario {
             throw new Exception("Comentário não pode exceder 1000 caracteres");
         }
         return conteudoTrimmed;
-    }
-
-    public boolean ehProfessor() {
-        return Objects.equals(usuario.getCargo().getTitulo(), "Professor");
     }
 }

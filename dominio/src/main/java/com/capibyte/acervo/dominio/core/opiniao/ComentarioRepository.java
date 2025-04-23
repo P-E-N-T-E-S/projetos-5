@@ -1,4 +1,4 @@
-package com.capibyte.acervo.dominio.core.opiniao.comentario;
+package com.capibyte.acervo.dominio.core.opiniao;
 
 import java.util.List;
 

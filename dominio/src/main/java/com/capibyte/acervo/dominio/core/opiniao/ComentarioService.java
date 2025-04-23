@@ -1,9 +1,7 @@
-package com.capibyte.acervo.aplicacao.opiniao;
+package com.capibyte.acervo.dominio.core.opiniao;
 
-import com.capibyte.acervo.dominio.core.opiniao.comentario.Comentario;
-import com.capibyte.acervo.dominio.core.opiniao.comentario.ComentarioRepository;
 import com.capibyte.acervo.dominio.core.acervo.livro.Livro;
-import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
+import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +15,8 @@ public class ComentarioService {
         this.comentarioRepository = comentarioRepository;
     }
 
-    public void adicionarComentario(String isbnLivro, Livro livro, Usuario usuario, String conteudo) throws Exception {
-        Comentario comentario = Comentario.criar(livro, usuario, conteudo);
+    public void adicionarComentario(String isbnLivro, Livro livro, Matricula codigo, String conteudo) throws Exception {
+        Comentario comentario = Comentario.criar(livro, codigo, conteudo);
         comentarioRepository.salvar(comentario);
     }
 
