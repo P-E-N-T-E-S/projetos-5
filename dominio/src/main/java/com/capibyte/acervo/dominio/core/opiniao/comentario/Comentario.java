@@ -12,15 +12,25 @@ public class Comentario {
     private final LocalDateTime dataCriacao;
     private final Usuario usuario;
 
-    public Comentario(ComentarioId id, Livro isbn, String conteudo, LocalDateTime dataCriacao, Usuario usuario) throws Exception {
+    public Comentario(ComentarioId id, Livro isbn, Usuario usuario,LocalDateTime dataCriacao, String conteudo) throws Exception {
         this.id = id;
         this.isbn = isbn;
-        this.conteudo = validarConteudo(conteudo);
-        this.dataCriacao = dataCriacao;
         this.usuario = usuario;
+        this.dataCriacao = dataCriacao;
+        this.conteudo = conteudo;
     }
 
-    private String validarConteudo(String conteudo) throws Exception {
+    public static Comentario criar(Livro livro, Usuario usuario, String conteudo) throws Exception {
+        return new Comentario(
+                ComentarioId.gerar(),
+                livro,
+                usuario,
+                LocalDateTime.now(),
+                validarConteudo(conteudo)
+        );
+    }
+
+    private static String validarConteudo(String conteudo) throws Exception {
         Objects.requireNonNull(conteudo, "Conteúdo não pode ser nulo");
 
         String conteudoTrimmed = conteudo.trim();
@@ -32,7 +42,10 @@ public class Comentario {
         if (conteudoTrimmed.length() > 1000) {
             throw new Exception("Comentário não pode exceder 1000 caracteres");
         }
-
         return conteudoTrimmed;
+    }
+
+    public boolean ehProfessor() {
+        return Objects.equals(usuario.getCargo().getTitulo(), "Professor");
     }
 }
