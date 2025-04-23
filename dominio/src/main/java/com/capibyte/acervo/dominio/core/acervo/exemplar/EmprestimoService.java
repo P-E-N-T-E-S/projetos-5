@@ -12,4 +12,9 @@ public class EmprestimoService {
         this.exemplarService = exemplarService;
     }
 
+    public void realizarEmprestimo(ExemplarId exemplarId, Matricula tomador){
+        Exemplar exemplar = exemplarService.buscarPorId(exemplarId);
+        exemplar.alugar(tomador);
+        exemplarService.salvar(exemplar);
+    }
 }
