@@ -1,7 +1,5 @@
-package com.capibyte.acervo.dominio.core.administracao.usuario.auth;
+package com.capibyte.acervo.infraestrutura.security.auth;
 
-import com.capibyte.acervo.apresentacao.dto.AcessDTO;
-import com.capibyte.acervo.apresentacao.dto.AuthDTO;
 import com.capibyte.acervo.infraestrutura.security.jwt.JwtUtils;
 import com.capibyte.acervo.infraestrutura.security.userdetail.UsuarioDetalhes;
 import org.springframework.security.authentication.AuthenticationManager;

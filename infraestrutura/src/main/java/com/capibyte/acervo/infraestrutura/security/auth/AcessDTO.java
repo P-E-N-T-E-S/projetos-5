@@ -1,4 +1,4 @@
-package com.capibyte.acervo.apresentacao.dto;
+package com.capibyte.acervo.infraestrutura.security.auth;
 
 public class AcessDTO {
     //TODO: Fazer retornar o usuário e liberações

@@ -4,6 +4,8 @@ import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Periodo;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
+import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
+import com.capibyte.acervo.dominio.core.compartilhado.DataUtil;
 
 import java.time.LocalDate;
 
@@ -40,8 +42,8 @@ public class Exemplar {
         return emprestimo != null;
     }
 
-    public void alugar(Matricula tomador) {
-        Periodo periodo = new Periodo(LocalDate.now(), LocalDate.now().plusDays(7)); //TODO: Descobrir se existe um padrão de dias de empréstimos ou se tem q ser settavel
+    public void alugar(Matricula tomador, Cargo cargo) {
+        Periodo periodo = new Periodo(LocalDate.now(), DataUtil.adicionarDiasUteis(LocalDate.now(), cargo.diasPermitidos()));
         this.emprestimo = new Emprestimo(periodo, tomador);
     }
 }

@@ -2,6 +2,7 @@ package com.capibyte.acervo.infraestrutura.security.userdetail;
 
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -17,8 +18,8 @@ public class UsuarioDetalhes implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Você pode converter o enum Cargo em Role se quiser
-        return Collections.emptyList();
+        String roleName = "ROLE_" + usuario.getCargo().name();
+        return Collections.singletonList(new SimpleGrantedAuthority(roleName));
     }
 
     @Override
