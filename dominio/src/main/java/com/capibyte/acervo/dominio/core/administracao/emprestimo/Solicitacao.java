@@ -1,19 +1,24 @@
 package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
+import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
+import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Solicitacao {
     private Matricula tomador;
-    private LocalDate diaSolicitacao; //TODO: Saber se a pessoa pode reservar mais do que um livro de uma vez
-    private ExemplarId exemplar;
+    private LocalDate diaSolicitacao;
+    private List<ExemplarId> exemplares;
+    private Cargo cargo;
 
-    public Solicitacao(Matricula tomador, ExemplarId exemplar) {
+    public Solicitacao(Matricula tomador, LocalDate diaSolicitacao, List<ExemplarId> exemplares, Cargo cargo) {
         this.tomador = tomador;
-        this.diaSolicitacao = LocalDate.now();
-        this.exemplar = exemplar;
+        this.diaSolicitacao = diaSolicitacao;
+        this.exemplares = exemplares;
+        this.cargo = cargo;
     }
 
     public Matricula getTomador() {
@@ -24,7 +29,11 @@ public class Solicitacao {
         return diaSolicitacao;
     }
 
-    public ExemplarId getExemplar() {
-        return exemplar;
+    public List<ExemplarId> getExemplares() {
+        return exemplares;
+    }
+
+    public Cargo getCargo() {
+        return cargo;
     }
 }

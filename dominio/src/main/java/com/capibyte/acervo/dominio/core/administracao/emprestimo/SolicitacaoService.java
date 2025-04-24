@@ -1,5 +1,6 @@
 package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
+import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,10 @@ public class SolicitacaoService {
         return solicitacaoRepository.obterTodas();
     }
 
-    public void ValidarSolicitacao(Solicitacao solicitacao){ //TODO: perguntar a saulo se precisamos de um dominio de envio de emails
-        emprestimoService.realizarEmprestimo(solicitacao.getExemplar(), solicitacao.getTomador(), );
+    public void ValidarSolicitacao(Solicitacao solicitacao){
+        for (ExemplarId exemplarId : solicitacao.getExemplares()){
+            emprestimoService.realizarEmprestimo(exemplarId, solicitacao.getTomador(), solicitacao.getCargo());
+        }
         solicitacaoRepository.deletar(solicitacao);
     }
 }
