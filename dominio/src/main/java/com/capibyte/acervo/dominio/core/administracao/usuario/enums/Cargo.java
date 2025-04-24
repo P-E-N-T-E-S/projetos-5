@@ -1,9 +1,10 @@
 package com.capibyte.acervo.dominio.core.administracao.usuario.enums;
 
 public enum Cargo {
-    ALUNO(0, "Aluno"),
+    GRADUANDO(0, "Aluno"),
     PROFESSOR(1, "Professor"),
-    BIBLIOTECARIA(2, "Bibliotecaria");
+    MESTRADO(2, "Mestrado"),
+    BIBLIOTECARIA(3, "Bibliotecaria");
 
     private long identificador;
     private String titulo;
@@ -28,5 +29,14 @@ public enum Cargo {
             }
         }
         throw new IllegalArgumentException("Cargo não encontrado para o id: " + id);
+    }
+
+    public int diasPermitidos() {
+        return switch (this) {
+            case GRADUANDO -> 7;
+            case MESTRADO -> 15;
+            case PROFESSOR -> 30;
+            case BIBLIOTECARIA -> 0;
+        };
     }
 }

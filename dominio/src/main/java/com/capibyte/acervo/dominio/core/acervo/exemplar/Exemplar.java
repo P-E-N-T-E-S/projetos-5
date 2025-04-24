@@ -4,6 +4,7 @@ import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Periodo;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
+import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package com.capibyte.acervo.dominio.core.administracao.usuario.auth;
+package com.capibyte.acervo.infraestrutura.security.auth;
 
 import com.capibyte.acervo.apresentacao.dto.AcessDTO;
 import com.capibyte.acervo.apresentacao.dto.AuthDTO;
