@@ -13,6 +13,7 @@
         <module>apresentacao</module>
         <module>dominio</module>
         <module>infraestrutura</module>
+        <module>testes</module>
     </modules>
 
     <properties>
