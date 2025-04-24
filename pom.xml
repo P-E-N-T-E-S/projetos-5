@@ -12,7 +12,7 @@
     <modules>
         <module>apresentacao</module>
         <module>dominio</module>
-        <module>persistencia</module>
+        <module>infraestrutura</module>
     </modules>
 
     <properties>

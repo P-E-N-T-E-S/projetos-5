@@ -20,4 +20,13 @@ public enum Cargo {
     public String getTitulo() {
         return titulo;
     }
+
+    public static Cargo fromIdentificador(long id) {
+        for (Cargo cargo : Cargo.values()) {
+            if (cargo.getIdentificador() == id) {
+                return cargo;
+            }
+        }
+        throw new IllegalArgumentException("Cargo não encontrado para o id: " + id);
+    }
 }

@@ -17,15 +17,23 @@ public class Usuario {
         this.cargo = cargo;
     }
 
+    public Matricula getMatricula() {
+        return matricula;
+    }
+
     public String getNome() {
         return nome;
     }
 
-    public Cargo getCargo() {
-        return cargo;
-    }
-
     public String getEmail() {
         return email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public Cargo getCargo() {
+        return cargo;
     }
 }

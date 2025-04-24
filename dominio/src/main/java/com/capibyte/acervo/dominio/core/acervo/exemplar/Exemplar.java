@@ -13,10 +13,11 @@ public class Exemplar {
     private String localizacao;
     private Emprestimo emprestimo;
 
-    public Exemplar(ExemplarId exemplarId, Isbn livro, String localizacao) {
+    public Exemplar(ExemplarId exemplarId, Isbn livro, String localizacao, Emprestimo emprestimo) {
         this.exemplarId = exemplarId;
         this.livro = livro;
         this.localizacao = localizacao;
+        this.emprestimo = emprestimo;
     }
 
     public ExemplarId getExemplarId() {
