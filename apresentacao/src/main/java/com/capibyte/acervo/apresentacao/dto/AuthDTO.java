@@ -1,4 +1,4 @@
-package com.capibyte.acervo.infraestrutura.security.auth;
+package com.capibyte.acervo.apresentacao.dto;
 
 public class AuthDTO {
     private String username;

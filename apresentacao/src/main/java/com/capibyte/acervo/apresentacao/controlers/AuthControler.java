@@ -1,5 +1,7 @@
-package com.capibyte.acervo.infraestrutura.security.auth;
+package com.capibyte.acervo.apresentacao.controlers;
 
+import com.capibyte.acervo.apresentacao.dto.AuthDTO;
+import com.capibyte.acervo.dominio.core.administracao.usuario.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -41,10 +41,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.capibyte.acervo</groupId>
-			<artifactId>dominio</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
