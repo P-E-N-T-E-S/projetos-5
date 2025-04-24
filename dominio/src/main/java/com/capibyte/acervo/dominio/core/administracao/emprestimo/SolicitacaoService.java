@@ -20,7 +20,7 @@ public class SolicitacaoService {
     }
 
     public void ValidarSolicitacao(Solicitacao solicitacao){ //TODO: perguntar a saulo se precisamos de um dominio de envio de emails
-        emprestimoService.realizarEmprestimo(solicitacao.getExemplar(), solicitacao.getTomador());
+        emprestimoService.realizarEmprestimo(solicitacao.getExemplar(), solicitacao.getTomador(), );
         solicitacaoRepository.deletar(solicitacao);
     }
 }
