@@ -28,7 +28,7 @@ public class UsuarioDetalhes implements UserDetails {
 
     @Override
     public String getUsername() {
-        return usuario.getMatricula().toString(); // Aqui usa a matrícula como identificador
+        return usuario.getMatricula().toString();
     }
 
     @Override

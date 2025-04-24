@@ -1,7 +1,9 @@
 package com.capibyte.acervo.infraestrutura.security;
 
-import com.carcontrol.apresentacao.security.jwt.AuthEntryPointJwt;
-import com.carcontrol.apresentacao.security.jwt.AuthFiltherToken;
+import com.capibyte.acervo.infraestrutura.security.jwt.AuthEntryPointJwt;
+import com.capibyte.acervo.infraestrutura.security.jwt.AuthFiltherToken;
+import com.capibyte.acervo.infraestrutura.security.jwt.JwtUtils;
+import com.capibyte.acervo.infraestrutura.security.userdetail.UsuarioDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,14 +18,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
-
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
     @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+    private AuthEntryPointJwt unauthorizedHandler; // AuthEntryPointJwt bean
+
+    @Autowired
+    private UsuarioDetailsService usuarioDetailsService; // UsuarioDetailsService bean
+
+    @Autowired
+    private JwtUtils jwtUtils; // Certifique-se de injetar o JwtUtils também
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -37,11 +43,11 @@ public class WebSecurityConfig {
 
     @Bean
     public AuthFiltherToken authFilterToken() {
-        return new AuthFiltherToken();
+        return new AuthFiltherToken(usuarioDetailsService, jwtUtils); // Passando as dependências
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable())
@@ -55,3 +61,4 @@ public class WebSecurityConfig {
         return http.build();
     }
 }
+

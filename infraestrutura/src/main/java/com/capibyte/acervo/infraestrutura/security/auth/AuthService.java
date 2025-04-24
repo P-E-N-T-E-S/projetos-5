@@ -1,7 +1,7 @@
 package com.capibyte.acervo.infraestrutura.security.auth;
 
 import com.capibyte.acervo.infraestrutura.security.jwt.JwtUtils;
-import com.capibyte.acervo.infraestrutura.security.userdetail.UserDetailsImpl;
+import com.capibyte.acervo.infraestrutura.security.userdetail.UsuarioDetalhes;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,7 +27,7 @@ public class AuthService {
 
             Authentication authentication = authenticationManager.authenticate(userAuth);
 
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            UsuarioDetalhes userDetails = (UsuarioDetalhes) authentication.getPrincipal();
 
             String token = jwtUtils.generateTokenFromUserDetails(userDetails);
 

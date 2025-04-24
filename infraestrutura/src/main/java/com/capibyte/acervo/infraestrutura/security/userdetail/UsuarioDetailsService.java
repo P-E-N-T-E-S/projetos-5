@@ -1,12 +1,13 @@
-package com.capibyte.acervo.infraestrutura.seguranca;
+package com.capibyte.acervo.infraestrutura.security.userdetail;
 
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
-import com.capibyte.acervo.dominio.core.administracao.usuario.gateway.UsuarioGateway;
-import com.capibyte.acervo.infraestrutura.security.userdetail.UsuarioDetalhes;
+import com.capibyte.acervo.dominio.core.administracao.usuario.UsuarioGateway;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UsuarioDetailsService implements UserDetailsService {
 
     private final UsuarioGateway usuarioGateway;

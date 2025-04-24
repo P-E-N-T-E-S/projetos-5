@@ -1,4 +1,4 @@
-package com.capibyte.acervo.infraestrutura.persistencia;
+package com.capibyte.acervo.infraestrutura;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class PersistenciaApplication {
     public static void main(String[] args) {
         SpringApplication.run(PersistenciaApplication.class, args);
     }
-
 }

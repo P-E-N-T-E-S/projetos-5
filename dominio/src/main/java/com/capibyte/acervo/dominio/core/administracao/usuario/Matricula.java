@@ -11,4 +11,9 @@ public class Matricula {
         notBlank(codigo, "O codigo não pode estar vazio");
         this.codigo = codigo;
     }
+
+    @Override
+    public String toString() {
+        return codigo;
+    }
 }
