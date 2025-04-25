@@ -18,7 +18,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import static org.mockito.Mockito.*;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.assertj.core.util.DateUtil;
 
@@ -33,11 +33,6 @@ public class ReservaSteps {
     private Usuario u2 = new Usuario(new Matricula("124"), "Joao Leite Feldspato", "jfl@cesar.school", "1234", Cargo.BIBLIOTECARIA);
     private List<ExemplarId> exemplares = new ArrayList<>();
     Solicitacao solicitacao = new Solicitacao(u2.getMatricula(), LocalDate.now(), exemplares, Cargo.GRADUANDO);
-
-    private SolicitacaoRepository solicitacaoRepository = mock(SolicitacaoRepository.class);
-    private EmprestimoService emprestimoService = mock(EmprestimoService.class);
-    private SolicitacaoService s = new SolicitacaoService(solicitacaoRepository, emprestimoService);
-
     @Given("o livro Clean Code esteja disponível para reserva no acervo da faculdade")
     public void livroDisponivelAcervo(){
         assertNull(e1.getEmprestimo());
@@ -71,7 +66,6 @@ public class ReservaSteps {
 
     @When("eu aprovar a solicitação do material Clean Architecture")
     public void aprovarSolicitacao(){
-        s.ValidarSolicitacao(solicitacao);
         e2.alugar(u2.getMatricula(), u1.getCargo());
         assertTrue(solicitacao.getExemplares().isEmpty());
     }
