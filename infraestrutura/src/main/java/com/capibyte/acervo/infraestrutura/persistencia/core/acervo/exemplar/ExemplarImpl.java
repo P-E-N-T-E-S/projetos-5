@@ -5,9 +5,11 @@ import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarRepository;
 import com.capibyte.acervo.infraestrutura.persistencia.JpaMapeador;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class ExemplarImpl implements ExemplarRepository {
 
     private JpaMapeador mapeador;
