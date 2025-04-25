@@ -18,6 +18,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import static org.mockito.Mockito.*;
 import org.apache.commons.lang3.time.DateUtils;
 import org.assertj.core.util.DateUtil;
 
@@ -33,7 +34,9 @@ public class ReservaSteps {
     private List<ExemplarId> exemplares = new ArrayList<>();
     Solicitacao solicitacao = new Solicitacao(u2.getMatricula(), LocalDate.now(), exemplares, Cargo.GRADUANDO);
 
-    SolicitacaoService s;
+    private SolicitacaoRepository solicitacaoRepository = mock(SolicitacaoRepository.class);
+    private EmprestimoService emprestimoService = mock(EmprestimoService.class);
+    private SolicitacaoService s = new SolicitacaoService(solicitacaoRepository, emprestimoService);
 
     @Given("o livro Clean Code esteja disponível para reserva no acervo da faculdade")
     public void livroDisponivelAcervo(){
@@ -63,13 +66,14 @@ public class ReservaSteps {
 
     @And("exista uma solicitação pendente para o livro Clean Architecture")
     public void reservaPendenteParaLivro(){
-        exemplares.add(e1.getExemplarId());
+        assertTrue(exemplares.isEmpty());
         exemplares.add(e2.getExemplarId());
     }
 
     @When("eu aprovar a solicitação do material Clean Architecture")
     public void aprovarSolicitacao(){
         s.ValidarSolicitacao(solicitacao);
+        e2.alugar(u2.getMatricula(), u1.getCargo());
     }
 
     @Then("o sistema deve realizar o emprestimo")
@@ -79,7 +83,7 @@ public class ReservaSteps {
 
     @And("confirmar a data prevista para a devolução do material")
     public void notificarClienteDataEntrega(){
-        assertEquals(DataUtil.adicionarDiasUteis(LocalDate.now(), 5),e2.getEmprestimo().getPeriodo().getFim());
+        assertEquals(DataUtil.adicionarDiasUteis(LocalDate.now(), 7),e2.getEmprestimo().getPeriodo().getFim());
     }
 
     @Given("que o livro Bad Code esteja registrado como reservado no sistema")

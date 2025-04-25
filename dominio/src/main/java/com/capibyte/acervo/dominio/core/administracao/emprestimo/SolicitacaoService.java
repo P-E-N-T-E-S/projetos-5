@@ -23,6 +23,7 @@ public class SolicitacaoService {
     public void ValidarSolicitacao(Solicitacao solicitacao){
         for (ExemplarId exemplarId : solicitacao.getExemplares()){
             emprestimoService.realizarEmprestimo(exemplarId, solicitacao.getTomador(), solicitacao.getCargo());
+            
         }
         solicitacaoRepository.deletar(solicitacao);
     }
