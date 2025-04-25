@@ -38,8 +38,12 @@ public class Exemplar {
         return emprestimo;
     }
 
-    public boolean isAlugado() {
-        return emprestimo != null;
+    public String isAlugado() {
+        if (emprestimo == null){
+            return "Livro Disponivel";
+        }else{
+            return "Livro Reservado";
+        }
     }
 
     public void alugar(Matricula tomador, Cargo cargo) {
