@@ -9,5 +9,5 @@ public interface ExemplarRepository {
 
     Exemplar buscarPorId(ExemplarId exemplarId);
 
-    List<Exemplar> buscarPorIsbn();
+    List<Exemplar> buscarPorIsbn(String isbn);
 }
