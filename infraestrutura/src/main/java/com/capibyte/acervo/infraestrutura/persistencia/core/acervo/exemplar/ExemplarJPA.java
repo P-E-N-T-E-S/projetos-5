@@ -32,4 +32,20 @@ public class ExemplarJPA {
     public EmprestimoJPA getEmprestimo() {
         return emprestimo;
     }
+
+    public void setExemplarId(long exemplarId) {
+        this.exemplarId = exemplarId;
+    }
+
+    public void setLivro(LivroJPA livro) {
+        this.livro = livro;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
+    }
+
+    public void setEmprestimo(EmprestimoJPA emprestimo) {
+        this.emprestimo = emprestimo;
+    }
 }

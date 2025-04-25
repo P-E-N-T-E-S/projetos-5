@@ -12,7 +12,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
-public class JwtUtils implements TokenAuth {
+public class JwtUtils{
 
     @Value("${seguranca.jwtsecret}")
     private String jwtSecret;

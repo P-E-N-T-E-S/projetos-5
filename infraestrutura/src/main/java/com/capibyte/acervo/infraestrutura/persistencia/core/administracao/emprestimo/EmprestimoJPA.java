@@ -10,4 +10,12 @@ public class EmprestimoJPA {
     private UsuarioJPA tomador;
     @Embedded
     private PeriodoJPA periodo;
+
+    public UsuarioJPA getTomador() {
+        return tomador;
+    }
+
+    public PeriodoJPA getPeriodo() {
+        return periodo;
+    }
 }
