@@ -66,7 +66,6 @@ public class ReservaSteps {
 
     @And("exista uma solicitação pendente para o livro Clean Architecture")
     public void reservaPendenteParaLivro(){
-        assertTrue(exemplares.isEmpty());
         exemplares.add(e2.getExemplarId());
     }
 
@@ -74,6 +73,7 @@ public class ReservaSteps {
     public void aprovarSolicitacao(){
         s.ValidarSolicitacao(solicitacao);
         e2.alugar(u2.getMatricula(), u1.getCargo());
+        assertTrue(solicitacao.getExemplares().isEmpty());
     }
 
     @Then("o sistema deve realizar o emprestimo")
