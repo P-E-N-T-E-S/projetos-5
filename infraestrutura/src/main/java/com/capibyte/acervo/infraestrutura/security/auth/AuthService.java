@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,10 +21,13 @@ public class AuthService {
 
     private UsuarioRepository usuarioRepository;
 
-    public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UsuarioRepository usuarioRepository) {
+    private PasswordEncoder passwordEncoder;
+
+    public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public AcessDTO login(AuthDTO authDTO){
@@ -54,7 +58,7 @@ public class AuthService {
         UsuarioJPA usuario = new UsuarioJPA();
         usuario.setMatricula(registroUsuarioDTO.matricula());
         usuario.setNome(registroUsuarioDTO.nome());
-        usuario.setSenha(registroUsuarioDTO.senha());
+        usuario.setSenha(passwordEncoder.encode(registroUsuarioDTO.senha()));
         usuario.setCargo(registroUsuarioDTO.cargo());
         usuario.setEmail(registroUsuarioDTO.email());
         usuarioRepository.save(usuario);
