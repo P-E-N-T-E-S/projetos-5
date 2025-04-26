@@ -1,5 +1,8 @@
 package com.capibyte.acervo.infraestrutura.security.auth;
 
+import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioJPA;
+import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioRepository;
+import com.capibyte.acervo.infraestrutura.security.exceptions.UsuarioJaExistente;
 import com.capibyte.acervo.infraestrutura.security.jwt.JwtUtils;
 import com.capibyte.acervo.infraestrutura.security.userdetail.UsuarioDetalhes;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,15 +18,18 @@ public class AuthService {
 
     private JwtUtils jwtUtils;
 
-    public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    private UsuarioRepository usuarioRepository;
+
+    public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UsuarioRepository usuarioRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public AcessDTO login(AuthDTO authDTO){
 
         try {
-            UsernamePasswordAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(authDTO.getUsername(), authDTO.getPassword());
+            UsernamePasswordAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(authDTO.username(), authDTO.password());
 
             Authentication authentication = authenticationManager.authenticate(userAuth);
 
@@ -39,5 +45,20 @@ public class AuthService {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public AcessDTO registrar(RegistroUsuarioDTO registroUsuarioDTO) throws UsuarioJaExistente {
+        if(usuarioRepository.existsById(registroUsuarioDTO.matricula())){
+            throw new UsuarioJaExistente(registroUsuarioDTO.matricula());
+        }
+        UsuarioJPA usuario = new UsuarioJPA();
+        usuario.setMatricula(registroUsuarioDTO.matricula());
+        usuario.setNome(registroUsuarioDTO.nome());
+        usuario.setSenha(registroUsuarioDTO.senha());
+        usuario.setCargo(registroUsuarioDTO.cargo());
+        usuario.setEmail(registroUsuarioDTO.email());
+        usuarioRepository.save(usuario);
+
+        return login(new AuthDTO(registroUsuarioDTO.matricula(), registroUsuarioDTO.senha()));
     }
 }

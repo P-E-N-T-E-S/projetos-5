@@ -40,7 +40,7 @@ public class ExemplarController {
         } else {
             throw new IllegalStateException("Usuário não autenticado.");
         }
-        emprestimoService.realizarEmprestimo(new ExemplarId(emprestimoDTO.getExemplarId()), new Matricula(emprestimoDTO.getMatricula()), cargo);
+        emprestimoService.realizarEmprestimo(new ExemplarId(emprestimoDTO.exemplarId()), new Matricula(emprestimoDTO.matricula()), cargo);
         return ResponseEntity.ok("Livro reservado com sucesso");
     }
 }
