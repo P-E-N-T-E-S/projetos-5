@@ -97,9 +97,21 @@ public class JpaMapeador extends ModelMapper{
         addConverter(new AbstractConverter<UsuarioJPA, Usuario>() {
             @Override
             protected Usuario convert(UsuarioJPA source) {
-                var matricula = map(source.getMatricula(), Matricula.class);
-                var cargo = Cargo.fromIdentificador(source.getCargo());
+                Matricula matricula = new Matricula(source.getMatricula());
+                Cargo cargo = Cargo.fromIdentificador(source.getCargo());
                 return new Usuario(matricula, source.getNome(), source.getEmail(), source.getSenha(), cargo);
+            }
+        });
+
+        addConverter(new AbstractConverter<Usuario, UsuarioJPA>() {
+            protected UsuarioJPA convert(Usuario source) {
+                UsuarioJPA usuarioJPA = new UsuarioJPA();
+                usuarioJPA.setCargo(source.getCargo().getIdentificador());
+                usuarioJPA.setEmail(source.getEmail());
+                usuarioJPA.setMatricula(source.getMatricula().toString());
+                usuarioJPA.setNome(source.getNome());
+                usuarioJPA.setSenha(source.getSenha());
+                return usuarioJPA;
             }
         });
     }

@@ -14,7 +14,7 @@ public class UsuarioJPA {
     private String nome;
     private String email;
     private String senha;
-    private int cargo;
+    private long cargo;
 
     public String getMatricula() {
         return matricula;
@@ -32,7 +32,7 @@ public class UsuarioJPA {
         return senha;
     }
 
-    public int getCargo() {
+    public long getCargo() {
         return cargo;
     }
 
@@ -52,7 +52,7 @@ public class UsuarioJPA {
         this.senha = senha;
     }
 
-    public void setCargo(int cargo) {
+    public void setCargo(long cargo) {
         this.cargo = cargo;
     }
 }
