@@ -3,12 +3,12 @@ package com.capibyte.acervo.apresentacao.controlers;
 import com.capibyte.acervo.apresentacao.dto.EmprestimoDTO;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarService;
-import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.EmprestimoService;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
 import com.capibyte.acervo.infraestrutura.security.userdetail.UsuarioDetalhes;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,29 +18,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/exemplar")
-public class ExemplarController {
+@RequestMapping("/emprestimo")
+public class EmprestimoController {
 
-    private ExemplarService exemplarService;
     private EmprestimoService emprestimoService;
 
-    public ExemplarController(ExemplarService exemplarService, EmprestimoService emprestimoService) {
-        this.exemplarService = exemplarService;
+    public EmprestimoController(EmprestimoService emprestimoService) {
         this.emprestimoService = emprestimoService;
     }
 
-    @PostMapping("/reservar")
+    @PostMapping("/reservas") //essa função tem que ser a de aprovar as reservas
     public ResponseEntity<String> reservar(@RequestBody EmprestimoDTO emprestimoDTO) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Cargo cargo = null;
 
         if (auth != null && auth.getPrincipal() instanceof UsuarioDetalhes usuarioDetalhes) {
             Usuario usuario = usuarioDetalhes.getUsuario();
-            cargo = usuario.getCargo();
+            Cargo cargo = usuario.getCargo();
         } else {
             throw new IllegalStateException("Usuário não autenticado.");
         }
-        emprestimoService.realizarEmprestimo(new ExemplarId(emprestimoDTO.exemplarId()), new Matricula(emprestimoDTO.matricula()), cargo);
+        emprestimoService.realizarEmprestimo(new ExemplarId(emprestimoDTO.exemplarId()), new Matricula(emprestimoDTO.matricula()));
         return ResponseEntity.ok("Livro reservado com sucesso");
     }
+
+
 }

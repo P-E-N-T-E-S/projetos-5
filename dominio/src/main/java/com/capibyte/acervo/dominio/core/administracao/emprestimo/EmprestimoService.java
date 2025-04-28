@@ -15,12 +15,11 @@ public class EmprestimoService {
 
     private ExemplarService exemplarService;
 
-    public EmprestimoService(ExemplarService exemplarService) {
-        this.exemplarService = exemplarService;
-    }
 
-    public void realizarEmprestimo(ExemplarId exemplarId, Matricula tomador, Cargo cargo){
+
+    public void realizarEmprestimo(ExemplarId exemplarId, Matricula tomador){
         Exemplar exemplar = exemplarService.buscarPorId(exemplarId);
+        Usuario tomadorUser =
         exemplar.alugar(tomador, cargo);
         exemplarService.salvar(exemplar);
     }

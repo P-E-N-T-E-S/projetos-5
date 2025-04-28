@@ -1,17 +1,95 @@
-Domain SistemaGerenciamentoAcervo{
-    Subdomain Acervo
-    Subdomain Opiniao
-
+/* Definição do Domínio Principal */
+Domain SistemaGerenciamentoAcervo {
+    Subdomain Acervo {
+        type = CORE_DOMAIN
+        domainVisionStatement = "Gerenciamento completo do acervo da biblioteca"
+    }
+    Subdomain Administracao {
+        type = SUPPORTING_DOMAIN
+        domainVisionStatement = "Gestão de empréstimos e controle administrativo"
+    }
+    Subdomain Usuarios {
+        type = GENERIC_DOMAIN
+        domainVisionStatement = "Gestão de usuários e suas permissões"
+    }
 }
 
-ContextMap{
-    contains Acervo
-    contains Academia
+/* Mapa de Contextos */
+ContextMap AcervoCesarMap {
+    type = SYSTEM_LANDSCAPE
+    state = TO_BE
+
+    contains AcervoContext
+    contains AdministracaoContext
+    contains UsuariosContext
+
+    /* Relacionamentos entre contextos */
+    AcervoContext [U]->[D] AdministracaoContext {
+        implementationTechnology = "REST"
+        exposedAggregates = Livro, Exemplar
+    }
+
+    AdministracaoContext [U]->[D] UsuariosContext {
+        implementationTechnology = "REST"
+        exposedAggregates = Usuario
+    }
 }
 
-BoundedContext Acervo implements Acervo{
-    Aggregate Livro{
-        Entity Livro{
+/* Contextos Delimitados */
+BoundedContext AcervoContext implements Acervo {
+    type = FEATURE
+    domainVisionStatement = "Gerenciamento do catálogo de livros e exemplares"
+
+    Aggregate Livro {
+        Entity Livro {
             aggregateRoot
+            - LivroId id
+            String titulo
+            String autor
+            String isbn
+            - List<Exemplar> exemplares
+        }
+
+        Entity Exemplar {
+            - ExemplarId id
+            String codigoLocalizacao
+            Boolean disponivel
+        }
+    }
+}
+
+BoundedContext AdministracaoContext implements Administracao {
+    type = FEATURE
+    domainVisionStatement = "Gestão de empréstimos e devoluções"
+
+    Aggregate Emprestimo {
+        Entity Emprestimo {
+            aggregateRoot
+            - EmprestimoId id
+            - ExemplarId exemplarId
+            - Matricula matricula
+            LocalDateTime dataEmprestimo
+            LocalDateTime dataPrevistaDevolucao
+        }
+    }
+}
+
+BoundedContext UsuariosContext implements Usuarios {
+    type = FEATURE
+    domainVisionStatement = "Gestão de usuários do sistema"
+
+    Aggregate Usuario {
+        Entity Usuario {
+            aggregateRoot
+            - Matricula matricula
+            String nome
+            - Cargo cargo
+            Boolean ativo
+        }
+
+        ValueObject Cargo {
+            String nome
+            Integer nivelAcesso
+        }
     }
 }

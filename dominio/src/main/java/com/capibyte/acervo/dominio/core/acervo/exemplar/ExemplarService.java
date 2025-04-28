@@ -16,7 +16,6 @@ public class ExemplarService {
     }
 
     public Exemplar buscarPorId(ExemplarId id){
-        Exemplar e = exemplarRepository.buscarPorId(id);
-        return e;
+        return exemplarRepository.buscarPorId(id);
     }
 }
