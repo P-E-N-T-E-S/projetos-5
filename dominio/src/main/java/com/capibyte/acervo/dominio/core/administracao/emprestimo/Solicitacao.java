@@ -1,6 +1,5 @@
 package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
-import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
@@ -12,13 +11,11 @@ public class Solicitacao {
     private Matricula tomador;
     private LocalDate diaSolicitacao;
     private List<ExemplarId> exemplares;
-    private Cargo cargo;
 
-    public Solicitacao(Matricula tomador, LocalDate diaSolicitacao, List<ExemplarId> exemplares, Cargo cargo) {
+    public Solicitacao(Matricula tomador, LocalDate diaSolicitacao, List<ExemplarId> exemplares) {
         this.tomador = tomador;
         this.diaSolicitacao = diaSolicitacao;
         this.exemplares = exemplares;
-        this.cargo = cargo;
     }
 
     public Matricula getTomador() {
@@ -33,7 +30,4 @@ public class Solicitacao {
         return exemplares;
     }
 
-    public Cargo getCargo() {
-        return cargo;
-    }
 }

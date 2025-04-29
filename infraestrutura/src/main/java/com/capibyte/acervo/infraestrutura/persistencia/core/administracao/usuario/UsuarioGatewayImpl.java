@@ -10,10 +10,10 @@ import java.util.Optional;
 @Component
 public class UsuarioGatewayImpl implements UsuarioGateway {
 
-    private final UsuarioRepository repository;
+    private final UsuarioRepositorio repository;
     private final JpaMapeador mapeador;
 
-    public UsuarioGatewayImpl(UsuarioRepository repository, JpaMapeador mapeador) {
+    public UsuarioGatewayImpl(UsuarioRepositorio repository, JpaMapeador mapeador) {
         this.repository = repository;
         this.mapeador = mapeador;
     }

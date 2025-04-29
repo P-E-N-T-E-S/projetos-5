@@ -9,22 +9,20 @@ import java.util.List;
 public class SolicitacaoService {
 
     private SolicitacaoRepository solicitacaoRepository;
-    private EmprestimoService emprestimoService;
 
-    public SolicitacaoService(SolicitacaoRepository solicitacaoRepository, EmprestimoService emprestimoService) {
+    public SolicitacaoService(SolicitacaoRepository solicitacaoRepository) {
         this.solicitacaoRepository = solicitacaoRepository;
-        this.emprestimoService = emprestimoService;
     }
 
     public List<Solicitacao> listarSolicitacoes(){
         return solicitacaoRepository.obterTodas();
     }
 
-    public void ValidarSolicitacao(Solicitacao solicitacao){
-        for (ExemplarId exemplarId : solicitacao.getExemplares()){
-            emprestimoService.realizarEmprestimo(exemplarId, solicitacao.getTomador(), solicitacao.getCargo());
-            
-        }
+    public void deletarSolicitacao(Solicitacao solicitacao){
         solicitacaoRepository.deletar(solicitacao);
+    }
+
+    public void salvarSolicitacao(Solicitacao solicitacao){
+        solicitacaoRepository.salvar(solicitacao);
     }
 }

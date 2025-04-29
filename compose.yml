@@ -7,6 +7,7 @@ services:
       POSTGRES_USER: usuario
       POSTGRES_PASSWORD: senha
       PGDATA: "/data/postgres"
+      POSTGRES_DB: Acervo
     networks:
       - acervo
     volumes:

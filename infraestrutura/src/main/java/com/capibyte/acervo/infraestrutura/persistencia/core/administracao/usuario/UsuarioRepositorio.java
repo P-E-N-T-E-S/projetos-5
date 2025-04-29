@@ -2,6 +2,6 @@ package com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuar
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UsuarioRepository extends JpaRepository<UsuarioJPA, String> {
+public interface UsuarioRepositorio extends JpaRepository<UsuarioJPA, String> {
     UsuarioJPA findByMatricula(String matricula);
 }

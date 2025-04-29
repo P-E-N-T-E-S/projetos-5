@@ -1,7 +1,7 @@
 package com.capibyte.acervo.infraestrutura.security.auth;
 
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioJPA;
-import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioRepository;
+import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioRepositorio;
 import com.capibyte.acervo.infraestrutura.security.exceptions.UsuarioJaExistente;
 import com.capibyte.acervo.infraestrutura.security.jwt.JwtUtils;
 import com.capibyte.acervo.infraestrutura.security.userdetail.UsuarioDetalhes;
@@ -19,11 +19,11 @@ public class AuthService {
 
     private JwtUtils jwtUtils;
 
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepositorio usuarioRepository;
 
     private PasswordEncoder passwordEncoder;
 
-    public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UsuarioRepositorio usuarioRepository, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
         this.usuarioRepository = usuarioRepository;

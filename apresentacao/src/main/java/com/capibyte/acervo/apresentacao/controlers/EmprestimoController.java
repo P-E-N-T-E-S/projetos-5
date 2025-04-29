@@ -1,21 +1,18 @@
 package com.capibyte.acervo.apresentacao.controlers;
 
-import com.capibyte.acervo.apresentacao.dto.EmprestimoDTO;
+import com.capibyte.acervo.apresentacao.dto.SolicitacaoDTO;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarService;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.EmprestimoService;
+import com.capibyte.acervo.dominio.core.administracao.emprestimo.Solicitacao;
+import com.capibyte.acervo.dominio.core.administracao.emprestimo.SolicitacaoService;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
-import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
-import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
-import com.capibyte.acervo.infraestrutura.security.userdetail.UsuarioDetalhes;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/emprestimo")
@@ -27,19 +24,10 @@ public class EmprestimoController {
         this.emprestimoService = emprestimoService;
     }
 
-    @PostMapping("/reservas") //essa função tem que ser a de aprovar as reservas
-    public ResponseEntity<String> reservar(@RequestBody EmprestimoDTO emprestimoDTO) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth != null && auth.getPrincipal() instanceof UsuarioDetalhes usuarioDetalhes) {
-            Usuario usuario = usuarioDetalhes.getUsuario();
-            Cargo cargo = usuario.getCargo();
-        } else {
-            throw new IllegalStateException("Usuário não autenticado.");
-        }
-        emprestimoService.realizarEmprestimo(new ExemplarId(emprestimoDTO.exemplarId()), new Matricula(emprestimoDTO.matricula()));
+    @PostMapping("/aprovar")
+    public ResponseEntity<String> reservar(@RequestBody SolicitacaoDTO solicitacaoDTO) {
+        emprestimoService.ValidarSolicitacao(new Solicitacao(new Matricula(solicitacaoDTO.tomador()), LocalDate.now(), solicitacaoDTO.exemplares().stream().map(exemplar -> new ExemplarId(exemplar)).toList()));
         return ResponseEntity.ok("Livro reservado com sucesso");
     }
-
-
+    
 }

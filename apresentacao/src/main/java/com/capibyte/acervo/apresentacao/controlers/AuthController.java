@@ -1,6 +1,5 @@
 package com.capibyte.acervo.apresentacao.controlers;
 
-import com.capibyte.acervo.apresentacao.dto.EmprestimoDTO;
 import com.capibyte.acervo.infraestrutura.security.auth.AuthDTO;
 import com.capibyte.acervo.infraestrutura.security.auth.AuthService;
 import com.capibyte.acervo.infraestrutura.security.auth.RegistroUsuarioDTO;
@@ -14,11 +13,11 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin
-public class AuthControler {
+public class AuthController {
 
     private AuthService authService;
 
-    public AuthControler(AuthService authService) {
+    public AuthController(AuthService authService) {
         this.authService = authService;
     }
 

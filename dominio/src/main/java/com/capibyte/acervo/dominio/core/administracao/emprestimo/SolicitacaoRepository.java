@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface SolicitacaoRepository {
 
-    void salvar(Matricula tomador, ExemplarId exemplarId);
+    void salvar(Solicitacao solicitacao);
 
     List<Solicitacao> obterTodas();
 
