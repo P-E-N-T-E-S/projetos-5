@@ -6,9 +6,6 @@ import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarService;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.administracao.usuario.UsuarioService;
-import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,11 +30,18 @@ public class EmprestimoService {
         exemplarService.salvar(exemplar);
     }
 
-    public void ValidarSolicitacao(Solicitacao solicitacao){
+    public void aprovarEmprestimo(Long id){
+        Solicitacao solicitacao = solicitacaoService.buscarSolicitacaoPorId(id);
         for (ExemplarId exemplarId : solicitacao.getExemplares()){
             realizarEmprestimo(exemplarId, solicitacao.getTomador());
 
         }
         solicitacaoService.deletarSolicitacao(solicitacao);
+    }
+
+    public void recusarEmprestimo(Long id){
+        Solicitacao solicitacao = solicitacaoService.buscarSolicitacaoPorId(id);
+        solicitacaoService.deletarSolicitacao(solicitacao);
+        //TODO: enviar uma mensagem para quem fez a solicitacao
     }
 }

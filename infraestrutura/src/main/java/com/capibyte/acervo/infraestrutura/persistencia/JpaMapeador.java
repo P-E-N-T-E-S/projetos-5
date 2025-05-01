@@ -7,6 +7,8 @@ import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Periodo;
+import com.capibyte.acervo.dominio.core.administracao.emprestimo.Solicitacao;
+import com.capibyte.acervo.dominio.core.administracao.emprestimo.SolicitacaoId;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
@@ -15,6 +17,7 @@ import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar.Exem
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.livro.LivroRepositorio;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.EmprestimoJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.PeriodoJPA;
+import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.SolicitacaoJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioJPA;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
@@ -112,6 +115,24 @@ public class JpaMapeador extends ModelMapper{
                 usuarioJPA.setNome(source.getNome());
                 usuarioJPA.setSenha(source.getSenha());
                 return usuarioJPA;
+            }
+        });
+
+        addConverter(new AbstractConverter<Solicitacao, SolicitacaoJPA>() {
+            @Override
+            protected SolicitacaoJPA convert(Solicitacao source) {
+                SolicitacaoJPA solicitacaoJPA = new SolicitacaoJPA();
+                solicitacaoJPA.setDiaSolicitacao(source.getDiaSolicitacao());
+                solicitacaoJPA.setExemplarIds(source.getExemplares().stream().map( exemplarId -> exemplarId.getId() ).toList());
+                solicitacaoJPA.setMatricula(source.getTomador().toString());
+                return solicitacaoJPA;
+            }
+        });
+
+        addConverter(new AbstractConverter<SolicitacaoJPA, Solicitacao>() {
+            @Override
+            protected Solicitacao convert(SolicitacaoJPA source) {
+                return new Solicitacao(new SolicitacaoId(source.getId()), new Matricula(source.getMatricula()), source.getDiaSolicitacao(), source.getExemplarIds().stream().map(ExemplarId::new).toList());
             }
         });
     }

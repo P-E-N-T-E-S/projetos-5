@@ -1,18 +1,13 @@
 package com.capibyte.acervo.apresentacao.controlers;
 
-import com.capibyte.acervo.apresentacao.dto.SolicitacaoDTO;
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.EmprestimoService;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Solicitacao;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.SolicitacaoService;
-import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/emprestimo")
@@ -20,14 +15,27 @@ public class EmprestimoController {
 
     private EmprestimoService emprestimoService;
 
-    public EmprestimoController(EmprestimoService emprestimoService) {
+    private SolicitacaoService solicitacaoService;
+
+    public EmprestimoController(EmprestimoService emprestimoService, SolicitacaoService solicitacaoService) {
         this.emprestimoService = emprestimoService;
+        this.solicitacaoService = solicitacaoService;
     }
 
-    @PostMapping("/aprovar")
-    public ResponseEntity<String> reservar(@RequestBody SolicitacaoDTO solicitacaoDTO) {
-        emprestimoService.ValidarSolicitacao(new Solicitacao(new Matricula(solicitacaoDTO.tomador()), LocalDate.now(), solicitacaoDTO.exemplares().stream().map(exemplar -> new ExemplarId(exemplar)).toList()));
+    @PostMapping("/aprovar/{id}")
+    public ResponseEntity<String> aprovar(@PathVariable Long id) {
+        emprestimoService.aprovarEmprestimo(id);
         return ResponseEntity.ok("Livro reservado com sucesso");
     }
-    
+
+    @DeleteMapping("/recusar/{id}")
+    public ResponseEntity<String> recusar(@PathVariable Long id) {
+        emprestimoService.recusarEmprestimo(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/solicitacoes")
+    public ResponseEntity<List<Solicitacao>> listar(){
+        return ResponseEntity.ok(solicitacaoService.listarSolicitacoes());
+    }
 }

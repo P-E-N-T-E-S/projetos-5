@@ -13,8 +13,7 @@ public interface SolicitacaoRepository {
 
     List<Solicitacao> obterTodas();
 
-    //TODO: Talvez seja List<> depende se uma pessoa pode ter mais de um livro alugado por vêz
-    Solicitacao buscarPorMatricula(Matricula tomador);
+    Solicitacao buscarPorId(Long codigo);
 
     void deletar(Solicitacao solicitacao);
 }

@@ -1,6 +1,5 @@
 package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +15,10 @@ public class SolicitacaoService {
 
     public List<Solicitacao> listarSolicitacoes(){
         return solicitacaoRepository.obterTodas();
+    }
+
+    public Solicitacao buscarSolicitacaoPorId(Long codigo){
+        return solicitacaoRepository.buscarPorId(codigo);
     }
 
     public void deletarSolicitacao(Solicitacao solicitacao){

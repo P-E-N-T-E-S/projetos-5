@@ -1,6 +1,8 @@
 package com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -14,8 +16,8 @@ public class SolicitacaoJPA {
     
     @ElementCollection
     private List<Long> exemplarIds;
-    
-    private String cargo;
+
+    LocalDate diaSolicitacao;
 
     // Getters e Setters
     public Long getId() {
@@ -42,11 +44,11 @@ public class SolicitacaoJPA {
         this.exemplarIds = exemplarIds;
     }
 
-    public String getCargo() {
-        return cargo;
+    public LocalDate getDiaSolicitacao() {
+        return diaSolicitacao;
     }
 
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
+    public void setDiaSolicitacao(LocalDate diaSolicitacao) {
+        this.diaSolicitacao = diaSolicitacao;
     }
 }

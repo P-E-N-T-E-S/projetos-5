@@ -54,8 +54,8 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                        .requestMatchers("/emprestimo").hasAuthority("ROLE_3"));
+                        .requestMatchers("/emprestimo").hasAuthority("ROLE_3")
+                        .anyRequest().authenticated());
 
         http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
 

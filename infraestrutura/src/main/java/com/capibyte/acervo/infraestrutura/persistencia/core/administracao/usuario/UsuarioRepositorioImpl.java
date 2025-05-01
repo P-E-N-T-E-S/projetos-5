@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UsuarioRepositorioImpl implements UsuarioRepository {
 
-    private UsuarioRepositorio usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
     private JpaMapeador mapeador;
 
-    public UsuarioRepositorioImpl(UsuarioRepositorio usuarioRepository, JpaMapeador mapeador) {
+    public UsuarioRepositorioImpl(UsuarioJpaRepository usuarioRepository, JpaMapeador mapeador) {
         this.usuarioRepository = usuarioRepository;
         this.mapeador = mapeador;
     }
