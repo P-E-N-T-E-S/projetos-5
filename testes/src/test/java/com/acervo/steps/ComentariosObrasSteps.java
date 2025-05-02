@@ -1,8 +1,6 @@
 package com.acervo.steps;
 
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
-import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.acervo.livro.*;
 import com.capibyte.acervo.dominio.core.administracao.usuario.*;
 import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;

@@ -1,10 +1,9 @@
 package com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar;
 
+import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarRepository;
 import com.capibyte.acervo.infraestrutura.persistencia.JpaMapeador;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,8 +26,8 @@ public class ExemplarImpl implements ExemplarRepository {
     }
 
     @Override
-    public Exemplar buscarPorId(ExemplarId exemplarId) {
-        var exemplarJPA = exemplarRepositorio.findById(exemplarId.getId()).orElse(null);
+    public Exemplar buscarPorId(CodigoDaObra codigoDaObra) {
+        var exemplarJPA = exemplarRepositorio.findById(codigoDaObra.getId()).orElse(null);
         if (exemplarJPA != null) {
             return mapeador.map(exemplarJPA, Exemplar.class);
         }

@@ -2,8 +2,8 @@ package com.capibyte.acervo.infraestrutura.persistencia;
 
 import com.capibyte.acervo.dominio.core.acervo.autor.Autor;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
+import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Periodo;
@@ -53,7 +53,7 @@ public class JpaMapeador extends ModelMapper{
 
         addConverter(new AbstractConverter<ExemplarJPA, Exemplar>() {
             protected Exemplar convert(ExemplarJPA source){
-                var id = map(source.getExemplarId(), ExemplarId.class);
+                var id = map(source.getExemplarId(), CodigoDaObra.class);
                 var emprestimo = map(source.getEmprestimo(), Emprestimo.class);
                 var livro = map(source.getLivro(), Isbn.class);
                 return new Exemplar(id, livro, source.getLocalizacao(), emprestimo);
@@ -90,10 +90,10 @@ public class JpaMapeador extends ModelMapper{
             }
         });
 
-        addConverter(new AbstractConverter<Long, ExemplarId>() {
+        addConverter(new AbstractConverter<Long, CodigoDaObra>() {
             @Override
-            protected ExemplarId convert(Long source) {
-                return new ExemplarId(source);
+            protected CodigoDaObra convert(Long source) {
+                return new CodigoDaObra(source);
             }
         });
 
@@ -132,7 +132,7 @@ public class JpaMapeador extends ModelMapper{
         addConverter(new AbstractConverter<SolicitacaoJPA, Solicitacao>() {
             @Override
             protected Solicitacao convert(SolicitacaoJPA source) {
-                return new Solicitacao(new SolicitacaoId(source.getId()), new Matricula(source.getMatricula()), source.getDiaSolicitacao(), source.getExemplarIds().stream().map(ExemplarId::new).toList());
+                return new Solicitacao(new SolicitacaoId(source.getId()), new Matricula(source.getMatricula()), source.getDiaSolicitacao(), source.getExemplarIds().stream().map(CodigoDaObra::new).toList());
             }
         });
     }

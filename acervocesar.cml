@@ -66,7 +66,7 @@ BoundedContext AdministracaoContext implements Administracao {
         Entity Emprestimo {
             aggregateRoot
             - EmprestimoId id
-            - ExemplarId exemplarId
+            - ExemplarId codigoDaObra
             - Matricula matricula
             LocalDateTime dataEmprestimo
             LocalDateTime dataPrevistaDevolucao

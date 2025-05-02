@@ -1,7 +1,7 @@
 package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
+import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarService;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
@@ -23,8 +23,8 @@ public class EmprestimoService {
         this.solicitacaoService = solicitacaoService;
     }
 
-    public void realizarEmprestimo(ExemplarId exemplarId, Matricula tomador){
-        Exemplar exemplar = exemplarService.buscarPorId(exemplarId);
+    public void realizarEmprestimo(CodigoDaObra codigoDaObra, Matricula tomador){
+        Exemplar exemplar = exemplarService.buscarPorId(codigoDaObra);
         Usuario tomadorUser = usuarioService.buscarPorMatricula(tomador.toString());
         exemplar.alugar(tomador, tomadorUser.getCargo());
         exemplarService.salvar(exemplar);
@@ -32,8 +32,8 @@ public class EmprestimoService {
 
     public void aprovarEmprestimo(Long id){
         Solicitacao solicitacao = solicitacaoService.buscarSolicitacaoPorId(id);
-        for (ExemplarId exemplarId : solicitacao.getExemplares()){
-            realizarEmprestimo(exemplarId, solicitacao.getTomador());
+        for (CodigoDaObra codigoDaObra : solicitacao.getExemplares()){
+            realizarEmprestimo(codigoDaObra, solicitacao.getTomador());
 
         }
         solicitacaoService.deletarSolicitacao(solicitacao);

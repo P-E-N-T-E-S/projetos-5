@@ -15,7 +15,7 @@ public class ExemplarService {
         exemplarRepository.salvar(exemplar);
     }
 
-    public Exemplar buscarPorId(ExemplarId id){
+    public Exemplar buscarPorId(CodigoDaObra id){
         return exemplarRepository.buscarPorId(id);
     }
 }

@@ -10,36 +10,62 @@ import com.capibyte.acervo.dominio.core.compartilhado.DataUtil;
 import java.time.LocalDate;
 
 public class Exemplar {
-    private ExemplarId exemplarId;
+    private CodigoDaObra codigoDaObra;
     private Isbn livro;
-    private String localizacao;
+    private Localizacao localizacao;
     private Emprestimo emprestimo;
+    private Status status = Status.DISPONIVEL;
 
-    public Exemplar(ExemplarId exemplarId, Isbn livro, String localizacao, Emprestimo emprestimo) {
-        this.exemplarId = exemplarId;
+    public Exemplar(CodigoDaObra codigoDaObra, Isbn livro, Localizacao localizacao, Emprestimo emprestimo, Status status) {
+        this.codigoDaObra = codigoDaObra;
         this.livro = livro;
         this.localizacao = localizacao;
         this.emprestimo = emprestimo;
+        this.status = status;
     }
 
-    public ExemplarId getExemplarId() {
-        return exemplarId;
+    public CodigoDaObra getCodigoDaObra() {
+        return codigoDaObra;
+    }
+
+    public void setCodigoDaObra(CodigoDaObra codigoDaObra) {
+        this.codigoDaObra = codigoDaObra;
     }
 
     public Isbn getLivro() {
         return livro;
     }
 
-    public String getLocalizacao() {
+    public void setLivro(Isbn livro) {
+        this.livro = livro;
+    }
+
+    public Localizacao getLocalizacao() {
         return localizacao;
+    }
+
+    public void setLocalizacao(Localizacao localizacao) {
+        this.localizacao = localizacao;
     }
 
     public Emprestimo getEmprestimo() {
         return emprestimo;
     }
 
+    public void setEmprestimo(Emprestimo emprestimo) {
+        this.emprestimo = emprestimo;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public String isAlugado() {
-        if (emprestimo == null){
+        if (status == Status.EMPRESTADO){
             return "Livro Disponivel";
         }else{
             return "Livro Reservado";
@@ -49,5 +75,6 @@ public class Exemplar {
     public void alugar(Matricula tomador, Cargo cargo) {
         Periodo periodo = new Periodo(LocalDate.now(), DataUtil.adicionarDiasUteis(LocalDate.now(), cargo.diasPermitidos()));
         this.emprestimo = new Emprestimo(periodo, tomador);
+        this.status = Status.EMPRESTADO;
     }
 }

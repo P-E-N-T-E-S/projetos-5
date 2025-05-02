@@ -1,7 +1,6 @@
 package com.acervo.steps;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
-import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
+import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn10;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.*;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
@@ -13,25 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.capibyte.acervo.dominio.core.compartilhado.DataUtil;
-import io.cucumber.java.an.E;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import org.apache.commons.lang3.time.DateUtils;
-import org.assertj.core.util.DateUtil;
-
-
 
 public class ReservaSteps {
 
-    private Exemplar e1 = new Exemplar(new ExemplarId(123L), new Isbn10("0132350882"), "Tá lá", null);
-    private Exemplar e2 = new Exemplar(new ExemplarId(124L), new Isbn10("0132350882"), "Logo ali", null);
-    private Exemplar e3 = new Exemplar(new ExemplarId(125L), new Isbn10("0132350882"), "Aqui pertinho", new Emprestimo(new Periodo(LocalDate.now(), DataUtil.adicionarDiasUteis(LocalDate.now(), 5)), new Matricula("11111")));
+    private Exemplar e1 = new Exemplar(new CodigoDaObra(123L), new Isbn10("0132350882"), "Tá lá", null);
+    private Exemplar e2 = new Exemplar(new CodigoDaObra(124L), new Isbn10("0132350882"), "Logo ali", null);
+    private Exemplar e3 = new Exemplar(new CodigoDaObra(125L), new Isbn10("0132350882"), "Aqui pertinho", new Emprestimo(new Periodo(LocalDate.now(), DataUtil.adicionarDiasUteis(LocalDate.now(), 5)), new Matricula("11111")));
     private Usuario u1 = new Usuario(new Matricula("123"), "Joao Leal Farias", "jfl@cesar.school", "1234", Cargo.GRADUANDO);
     private Usuario u2 = new Usuario(new Matricula("124"), "Joao Leite Feldspato", "jfl@cesar.school", "1234", Cargo.BIBLIOTECARIA);
-    private List<ExemplarId> exemplares = new ArrayList<>();
+    private List<CodigoDaObra> exemplares = new ArrayList<>();
     Solicitacao solicitacao = new Solicitacao(u2.getMatricula(), LocalDate.now(), exemplares, Cargo.GRADUANDO);
     @Given("o livro Clean Code esteja disponível para reserva no acervo da faculdade")
     public void livroDisponivelAcervo(){

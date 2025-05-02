@@ -1,7 +1,5 @@
 package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
-import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

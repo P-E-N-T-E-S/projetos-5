@@ -5,7 +5,7 @@ import java.util.List;
 public interface ExemplarRepository {
     void salvar(Exemplar exemplar);
 
-    Exemplar buscarPorId(ExemplarId exemplarId);
+    Exemplar buscarPorId(CodigoDaObra codigoDaObra);
 
     List<Exemplar> buscarPorIsbn(String isbn);
 }

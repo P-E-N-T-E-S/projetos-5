@@ -1,6 +1,6 @@
 package com.capibyte.acervo.apresentacao.controlers;
 
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
+import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Solicitacao;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.SolicitacaoService;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
@@ -29,7 +29,7 @@ public class SolicitacaoController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UsuarioDetalhes usuarioDetalhes) {
             Usuario tomador =  usuarioDetalhes.getUsuario();
-            solicitacaoService.salvarSolicitacao(new Solicitacao(tomador.getMatricula(), LocalDate.now(),exemplares.stream().map(ExemplarId::new).toList()));
+            solicitacaoService.salvarSolicitacao(new Solicitacao(tomador.getMatricula(), LocalDate.now(),exemplares.stream().map(CodigoDaObra::new).toList()));
             return new ResponseEntity<>("Solicitação realizada!", HttpStatus.CREATED);
         }else {
             return new ResponseEntity<>("Usuário não autenticado", HttpStatus.UNAUTHORIZED);

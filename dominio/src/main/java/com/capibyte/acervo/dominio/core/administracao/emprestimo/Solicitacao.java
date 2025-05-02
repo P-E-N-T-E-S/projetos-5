@@ -1,8 +1,7 @@
 package com.capibyte.acervo.dominio.core.administracao.emprestimo;
 
-import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarId;
+import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
-import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,16 +10,16 @@ public class Solicitacao {
     private SolicitacaoId id;
     private Matricula tomador;
     private LocalDate diaSolicitacao;
-    private List<ExemplarId> exemplares;
+    private List<CodigoDaObra> exemplares;
 
-    public Solicitacao(SolicitacaoId id, Matricula tomador, LocalDate diaSolicitacao, List<ExemplarId> exemplares) {
+    public Solicitacao(SolicitacaoId id, Matricula tomador, LocalDate diaSolicitacao, List<CodigoDaObra> exemplares) {
         this.id = id;
         this.tomador = tomador;
         this.diaSolicitacao = diaSolicitacao;
         this.exemplares = exemplares;
     }
 
-    public Solicitacao(Matricula tomador, LocalDate diaSolicitacao, List<ExemplarId> exemplares) {
+    public Solicitacao(Matricula tomador, LocalDate diaSolicitacao, List<CodigoDaObra> exemplares) {
         this.tomador = tomador;
         this.diaSolicitacao = diaSolicitacao;
         this.exemplares = exemplares;
@@ -34,7 +33,7 @@ public class Solicitacao {
         return diaSolicitacao;
     }
 
-    public List<ExemplarId> getExemplares() {
+    public List<CodigoDaObra> getExemplares() {
         return exemplares;
     }
 
