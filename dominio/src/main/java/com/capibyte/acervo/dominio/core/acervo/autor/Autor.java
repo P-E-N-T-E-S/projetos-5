@@ -9,7 +9,6 @@ public class Autor {
     String nome;
 
     public Autor(AutorId id, String nome) {
-        notNull(id, "O id não pode ser nulo");
 
         this.id = id;
         setNome(nome);

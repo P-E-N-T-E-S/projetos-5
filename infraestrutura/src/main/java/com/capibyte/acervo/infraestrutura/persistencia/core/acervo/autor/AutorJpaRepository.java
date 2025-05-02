@@ -11,4 +11,5 @@ public interface AutorJpaRepository extends JpaRepository<AutorJPA, Long> {
     Optional<AutorJPA> findById(Long id);
     @Query("SELECT a FROM AutorJPA a JOIN a.livros l WHERE l.isbn = :isbn")
     List<AutorJPA> findByLivroIsbn(@Param("isbn") String isbn);
+    Optional<AutorJPA> findByNome(String nome);
 }

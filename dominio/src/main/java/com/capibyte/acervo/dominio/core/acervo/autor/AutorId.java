@@ -5,14 +5,14 @@ import java.util.Objects;
 import static org.apache.commons.lang3.Validate.notNull;
 
 public class AutorId {
-    Integer id;
+    Long id;
 
-    public AutorId(Integer id) {
+    public AutorId(Long id) {
         notNull(id, "o id não pode ser nulo");
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

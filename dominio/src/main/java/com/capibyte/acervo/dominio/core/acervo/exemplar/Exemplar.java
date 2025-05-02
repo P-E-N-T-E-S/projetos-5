@@ -14,7 +14,7 @@ public class Exemplar {
     private Isbn livro;
     private Localizacao localizacao;
     private Emprestimo emprestimo;
-    private Status status = Status.DISPONIVEL;
+    private Status status;
 
     public Exemplar(CodigoDaObra codigoDaObra, Isbn livro, Localizacao localizacao, Emprestimo emprestimo, Status status) {
         this.codigoDaObra = codigoDaObra;
@@ -22,6 +22,13 @@ public class Exemplar {
         this.localizacao = localizacao;
         this.emprestimo = emprestimo;
         this.status = status;
+    }
+
+    public Exemplar(CodigoDaObra codigoDaObra, Isbn livro, Localizacao localizacao) {
+        this.codigoDaObra = codigoDaObra;
+        this.livro = livro;
+        this.localizacao = localizacao;
+        this.status = Status.DISPONIVEL;
     }
 
     public CodigoDaObra getCodigoDaObra() {

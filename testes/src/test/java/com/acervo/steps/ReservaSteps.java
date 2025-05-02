@@ -1,7 +1,6 @@
 package com.acervo.steps;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
-import com.capibyte.acervo.dominio.core.acervo.livro.Isbn10;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.*;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;

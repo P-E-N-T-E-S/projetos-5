@@ -4,7 +4,9 @@ import com.capibyte.acervo.dominio.core.acervo.autor.Autor;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
+import com.capibyte.acervo.dominio.core.acervo.exemplar.Localizacao;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
+import com.capibyte.acervo.dominio.core.acervo.livro.Livro;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Periodo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Solicitacao;
@@ -14,6 +16,8 @@ import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.autor.AutorJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar.ExemplarJPA;
+import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar.LocalizacaoJpa;
+import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.livro.LivroJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.livro.LivroRepositorio;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.EmprestimoJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.PeriodoJPA;
@@ -43,22 +47,24 @@ public class JpaMapeador extends ModelMapper{
             }
         });
 
-        addConverter(new AbstractConverter<Integer, AutorId>() {
+        addConverter(new AbstractConverter<Long, AutorId>() {
 
             @Override
-            protected AutorId convert(Integer integer) {
+            protected AutorId convert(Long integer) {
                 return new AutorId(integer);
             }
         });
 
         addConverter(new AbstractConverter<ExemplarJPA, Exemplar>() {
             protected Exemplar convert(ExemplarJPA source){
-                var id = map(source.getExemplarId(), CodigoDaObra.class);
+                var id = map(source.getCodigoDaObra(), CodigoDaObra.class);
                 var emprestimo = map(source.getEmprestimo(), Emprestimo.class);
-                var livro = map(source.getLivro(), Isbn.class);
-                return new Exemplar(id, livro, source.getLocalizacao(), emprestimo);
+                var livro = new Isbn(source.getLivro().getIsbn());
+                Localizacao localizacao = new Localizacao(source.getLocalizacao().getPrateleira(), source.getLocalizacao().getAndar());
+                return new Exemplar(id, livro, localizacao, emprestimo, source.getStatus());
             }
         });
+
 
         addConverter(new AbstractConverter<PeriodoJPA, Periodo>() {
             @Override
@@ -76,19 +82,24 @@ public class JpaMapeador extends ModelMapper{
             }
         });
 
-        addConverter( new AbstractConverter<Exemplar, ExemplarJPA>() {
+        addConverter(new AbstractConverter<Exemplar, ExemplarJPA>() {
             @Override
             protected ExemplarJPA convert(Exemplar source) {
                 ExemplarJPA exemplarJPA = new ExemplarJPA();
-                exemplarJPA.setExemplarId(source.getExemplarId().getId());
+                exemplarJPA.setCodigoDaObra(source.getCodigoDaObra().getId());
                 exemplarJPA.setLivro(livroRepositorio.findByIsbn(source.getLivro().getCodigo()));
-                exemplarJPA.setLocalizacao(source.getLocalizacao());
+                LocalizacaoJpa localizacaoJpa = new LocalizacaoJpa();
+                localizacaoJpa.setAndar(source.getLocalizacao().getAndar());
+                localizacaoJpa.setPrateleira(source.getLocalizacao().getPrateleira());
+                exemplarJPA.setLocalizacao(localizacaoJpa);
+                exemplarJPA.setStatus(source.getStatus());
                 if (source.getEmprestimo() != null) {
                     exemplarJPA.setEmprestimo(map(source.getEmprestimo(), EmprestimoJPA.class));
                 }
                 return exemplarJPA;
             }
         });
+
 
         addConverter(new AbstractConverter<Long, CodigoDaObra>() {
             @Override
@@ -133,6 +144,37 @@ public class JpaMapeador extends ModelMapper{
             @Override
             protected Solicitacao convert(SolicitacaoJPA source) {
                 return new Solicitacao(new SolicitacaoId(source.getId()), new Matricula(source.getMatricula()), source.getDiaSolicitacao(), source.getExemplarIds().stream().map(CodigoDaObra::new).toList());
+            }
+        });
+
+        addConverter(new AbstractConverter<Livro, LivroJPA>() {
+            @Override
+            protected LivroJPA convert(Livro source) {
+                LivroJPA livroJPA = new LivroJPA();
+                livroJPA.setIsbn(source.getIsbn().getCodigo());
+                livroJPA.setTitulo(source.getTitulo());
+                livroJPA.setSinopse(source.getSinpose());
+                livroJPA.setNumeroChamada(source.getNumeroChamada());
+                livroJPA.setAnoDePublicacao(source.getAnoDePublicacao());
+                livroJPA.setQuantidadeDePaginas(source.getQuantidadeDePaginas());
+                livroJPA.setTemas(source.getTemas());
+                return livroJPA;
+            }
+        });
+
+        addConverter(new AbstractConverter<LivroJPA, Livro>() {
+            @Override
+            protected Livro convert(LivroJPA source) {
+                return new Livro(
+                        new Isbn(source.getIsbn()),
+                        source.getTitulo(),
+                        source.getAutores().stream().map(autor -> new AutorId(autor.getId())).toList(),
+                        source.getSinopse(),
+                        source.getNumeroChamada(),
+                        source.getAnoDePublicacao(),
+                        source.getQuantidadeDePaginas(),
+                        source.getTemas()
+                );
             }
         });
     }
