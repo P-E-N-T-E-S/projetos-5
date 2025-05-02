@@ -13,7 +13,7 @@ public class LivroJPA {
     @Id
     private String isbn;
     private String titulo;
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "autor_livro",
             joinColumns = @JoinColumn(name = "isbn"),
@@ -25,7 +25,10 @@ public class LivroJPA {
     private int anoDePublicacao;
     private int quantidadeDePaginas;
     @ElementCollection
-    @CollectionTable(name = "livro_temas", joinColumns = @JoinColumn(name = "isbn"))
+    @CollectionTable(
+            name = "livros_temas",
+            joinColumns = @JoinColumn(name = "isbn")
+    )
     @Column(name = "tema")
     private List<String> temas;
     @OneToMany(mappedBy = "livro")

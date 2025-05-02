@@ -2,6 +2,7 @@ package com.capibyte.acervo.infraestrutura.persistencia;
 
 import com.capibyte.acervo.dominio.core.acervo.autor.Autor;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
+import com.capibyte.acervo.dominio.core.acervo.autor.AutorRepository;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Localizacao;
@@ -15,6 +16,7 @@ import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.autor.AutorJPA;
+import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.autor.AutorJpaRepository;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar.ExemplarJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar.LocalizacaoJpa;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.livro.LivroJPA;
@@ -34,6 +36,9 @@ public class JpaMapeador extends ModelMapper{
 
     @Autowired
     private LivroRepositorio livroRepositorio;
+
+    @Autowired
+    private AutorJpaRepository autorJpaRepository;
 
     JpaMapeador(){
         var configuracao = getConfiguration();
@@ -158,6 +163,7 @@ public class JpaMapeador extends ModelMapper{
                 livroJPA.setAnoDePublicacao(source.getAnoDePublicacao());
                 livroJPA.setQuantidadeDePaginas(source.getQuantidadeDePaginas());
                 livroJPA.setTemas(source.getTemas());
+                livroJPA.setAutores(source.getAutores().stream().map(autor -> autorJpaRepository.findById(autor.getId()).orElse(null)).toList());
                 return livroJPA;
             }
         });
