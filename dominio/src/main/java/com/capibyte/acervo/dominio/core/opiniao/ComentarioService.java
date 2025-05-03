@@ -15,8 +15,7 @@ public class ComentarioService {
         this.comentarioRepository = comentarioRepository;
     }
 
-    public void adicionarComentario(String isbnLivro, Livro livro, Usuario usuario, String conteudo) throws Exception {
-        Comentario comentario = Comentario.criar(livro, usuario, conteudo);
+    public void adicionarComentario(Comentario comentario){
         comentarioRepository.salvar(comentario);
     }
 

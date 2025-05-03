@@ -15,6 +15,8 @@ import com.capibyte.acervo.dominio.core.administracao.emprestimo.SolicitacaoId;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
+import com.capibyte.acervo.dominio.core.opiniao.Comentario;
+import com.capibyte.acervo.dominio.core.opiniao.ComentarioId;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.autor.AutorJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.autor.AutorJpaRepository;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar.ExemplarJPA;
@@ -25,6 +27,8 @@ import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.empres
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.PeriodoJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.SolicitacaoJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioJPA;
+import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioJpaRepository;
+import com.capibyte.acervo.infraestrutura.persistencia.core.opiniao.ComentarioJPA;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
@@ -39,6 +43,9 @@ public class JpaMapeador extends ModelMapper{
 
     @Autowired
     private AutorJpaRepository autorJpaRepository;
+
+    @Autowired
+    private UsuarioJpaRepository usuarioRepositorio;
 
     JpaMapeador(){
         var configuracao = getConfiguration();
@@ -180,6 +187,37 @@ public class JpaMapeador extends ModelMapper{
                         source.getAnoDePublicacao(),
                         source.getQuantidadeDePaginas(),
                         source.getTemas()
+                );
+            }
+        });
+
+        addConverter(new AbstractConverter<Comentario, ComentarioJPA>() {
+            @Override
+            protected ComentarioJPA convert(Comentario source) {
+                ComentarioJPA comentarioJPA = new ComentarioJPA();
+                comentarioJPA.setId(source.getId() != null ? source.getId().getId() : 0);
+                comentarioJPA.setConteudo(source.getConteudo());
+                comentarioJPA.setDataCriacao(source.getDataCriacao());
+
+                LivroJPA livroJPA = livroRepositorio.findByIsbn(source.getIsbn().getCodigo());
+                comentarioJPA.setLivro(livroJPA);
+
+                UsuarioJPA usuarioJPA = usuarioRepositorio.findByMatricula(source.getUsuario().toString());
+                comentarioJPA.setUsuario(usuarioJPA);
+
+                return comentarioJPA;
+            }
+        });
+
+        addConverter(new AbstractConverter<ComentarioJPA, Comentario>() {
+            @Override
+            protected Comentario convert(ComentarioJPA source) {
+                return new Comentario(
+                        new ComentarioId(source.getId()),
+                        new Isbn(source.getLivro().getIsbn()),
+                        source.getConteudo(),
+                        source.getDataCriacao(),
+                        new Matricula(source.getUsuario().getMatricula())
                 );
             }
         });

@@ -23,4 +23,43 @@ public class ComentarioJPA {
     private LocalDateTime dataCriacao;
     private String conteudo;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LivroJPA getLivro() {
+        return livro;
+    }
+
+    public void setLivro(LivroJPA livro) {
+        this.livro = livro;
+    }
+
+    public UsuarioJPA getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioJPA usuario) {
+        this.usuario = usuario;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public String getConteudo() {
+        return conteudo;
+    }
+
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
+    }
 }

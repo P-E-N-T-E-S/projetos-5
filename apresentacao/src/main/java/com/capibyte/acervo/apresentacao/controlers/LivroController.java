@@ -1,19 +1,24 @@
 package com.capibyte.acervo.apresentacao.controlers;
 
-import com.capibyte.acervo.apresentacao.dto.ComentarioDTO;
 import com.capibyte.acervo.apresentacao.dto.LivroDTO;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorService;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import com.capibyte.acervo.dominio.core.acervo.livro.Livro;
 import com.capibyte.acervo.dominio.core.acervo.livro.LivroService;
+import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
+import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.opiniao.Comentario;
 import com.capibyte.acervo.dominio.core.opiniao.ComentarioService;
+import com.capibyte.acervo.infraestrutura.security.userdetail.UsuarioDetalhes;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/livros")
@@ -38,19 +43,20 @@ public class LivroController {
         return ResponseEntity.ok("Livro adicionado com sucesso");
     }
 
-    @GetMapping("/comentarios/{isbn}")
-    public List<ComentarioDTO> paginaLivro(@PathVariable String isbn) {
-        List<Comentario> comentarios = comentarioService.listarComentarios(isbn);
+    @GetMapping("/{isbn}/comentarios")
+    public ResponseEntity<List<Comentario>>paginaLivro(@PathVariable String isbn) {
+        return ResponseEntity.ok(comentarioService.listarComentarios(isbn));
+    }
 
-        return comentarios.stream()
-                .map(comentario -> new ComentarioDTO(
-                        comentario.getId(),
-                        comentario.getIsbn().getIsbn().toString(),
-                        comentario.getConteudo(),
-                        comentario.getUsuario().getNome(),
-                        comentario.getUsuario().getCargo().name(),
-                        comentario.getDataCriacao()
-                ))
-                .collect(Collectors.toList());
+    @PostMapping("/{isbn}/comentar")
+    public ResponseEntity<String> adicionarComentario(@RequestBody String conteudo, @PathVariable String isbn) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof UsuarioDetalhes usuarioDetalhes) {
+            Usuario tomador = usuarioDetalhes.getUsuario();
+            comentarioService.adicionarComentario(new Comentario(new Isbn(isbn), conteudo, LocalDateTime.now(), tomador.getMatricula()));
+            return new ResponseEntity<>("Comentário adicionado com sucesso", HttpStatus.CREATED);
+        }else {
+            return new ResponseEntity<>("Usuário não autenticado", HttpStatus.UNAUTHORIZED);
+        }
     }
 }
