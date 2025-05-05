@@ -23,7 +23,6 @@ public class Comentario {
         this.usuario = usuario;
     }
 
-        Objects.requireNonNull(conteudo, "Conteúdo não pode ser nulo");
     public Comentario(Isbn isbn, String conteudo, LocalDateTime dataCriacao, Matricula usuario) {
         this.isbn = isbn;
         this.conteudo = conteudo;

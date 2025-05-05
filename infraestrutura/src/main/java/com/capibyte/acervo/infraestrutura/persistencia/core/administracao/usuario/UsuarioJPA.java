@@ -1,9 +1,9 @@
 package com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.salvo.ListaLeituraJPA;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +15,9 @@ public class UsuarioJPA {
     private String email;
     private String senha;
     private long cargo;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ListaLeituraJPA> listaLeitura = new ArrayList<>();
 
     public String getMatricula() {
         return matricula;
@@ -54,5 +57,13 @@ public class UsuarioJPA {
 
     public void setCargo(long cargo) {
         this.cargo = cargo;
+    }
+
+    public List<ListaLeituraJPA> getListaLeitura() {
+        return listaLeitura;
+    }
+
+    public void setListaLeitura(List<ListaLeituraJPA> listaLeitura) {
+        this.listaLeitura = listaLeitura;
     }
 }

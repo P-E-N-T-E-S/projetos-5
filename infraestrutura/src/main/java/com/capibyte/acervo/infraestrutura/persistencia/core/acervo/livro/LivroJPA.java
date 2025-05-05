@@ -51,11 +51,11 @@ public class LivroJPA {
     }
 
     public List<AutorJPA> getAutores() {
-        return autores;
+        return autoresLivro;
     }
 
     public void setAutores(List<AutorJPA> autores) {
-        this.autores = autores;
+        this.autoresLivro = autores;
     }
 
     public String getSinopse() {

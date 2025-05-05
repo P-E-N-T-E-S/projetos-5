@@ -57,6 +57,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/emprestimo").hasAuthority("ROLE_3")
                         .requestMatchers("/exemplares").hasAuthority("ROLE_3")
                         .requestMatchers("/livros/lib").hasAuthority("ROLE_3")
+                        .requestMatchers("/obras/lib").hasAuthority("ROLE_3")
                         .anyRequest().authenticated());
 
         http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);

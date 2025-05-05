@@ -13,6 +13,11 @@ public class ObraImpl implements ObraRepository {
 
     private JpaMapeador mapeador;
 
+    public ObraImpl(ObraRepositorio repository, JpaMapeador mapeador) {
+        this.repository = repository;
+        this.mapeador = mapeador;
+    }
+
     @Override
     public void salvar(Obra obra) {
         ObraJPA obraJPA = mapeador.map(obra, ObraJPA.class);
