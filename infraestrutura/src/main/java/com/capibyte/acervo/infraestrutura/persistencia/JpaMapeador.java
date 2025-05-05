@@ -8,6 +8,9 @@ import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Localizacao;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import com.capibyte.acervo.dominio.core.acervo.livro.Livro;
+import com.capibyte.acervo.dominio.core.acervo.obra.DOI;
+import com.capibyte.acervo.dominio.core.acervo.obra.Obra;
+import com.capibyte.acervo.dominio.core.acervo.obra.PalavraChave;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Periodo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Solicitacao;
@@ -23,6 +26,7 @@ import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar.Exem
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar.LocalizacaoJpa;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.livro.LivroJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.livro.LivroRepositorio;
+import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.obra.ObraJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.EmprestimoJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.PeriodoJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.SolicitacaoJPA;
@@ -34,6 +38,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class JpaMapeador extends ModelMapper{
@@ -146,7 +152,7 @@ public class JpaMapeador extends ModelMapper{
             protected SolicitacaoJPA convert(Solicitacao source) {
                 SolicitacaoJPA solicitacaoJPA = new SolicitacaoJPA();
                 solicitacaoJPA.setDiaSolicitacao(source.getDiaSolicitacao());
-                solicitacaoJPA.setExemplarIds(source.getExemplares().stream().map( exemplarId -> exemplarId.getId() ).toList());
+                solicitacaoJPA.setExemplarIds(source.getExemplares().stream().map(CodigoDaObra::getId).toList());
                 solicitacaoJPA.setMatricula(source.getTomador().toString());
                 return solicitacaoJPA;
             }
@@ -221,6 +227,97 @@ public class JpaMapeador extends ModelMapper{
                 );
             }
         });
+
+        // Adicione esses conversores dentro do construtor JpaMapeador()
+
+// Conversão de PalavraChave para String
+        addConverter(new AbstractConverter<PalavraChave, String>() {
+            @Override
+            protected String convert(PalavraChave source) {
+                return source.toString();
+            }
+        });
+
+// Conversão de String para PalavraChave
+        addConverter(new AbstractConverter<String, PalavraChave>() {
+            @Override
+            protected PalavraChave convert(String source) {
+                return new PalavraChave(source);
+            }
+        });
+
+// Conversão de DOI para String
+        addConverter(new AbstractConverter<DOI, String>() {
+            @Override
+            protected String convert(DOI source) {
+                return source.toString();
+            }
+        });
+
+// Conversão de String para DOI
+        addConverter(new AbstractConverter<String, DOI>() {
+            @Override
+            protected DOI convert(String source) {
+                return new DOI(source);
+            }
+        });
+
+// Conversão de Obra para ObraJPA
+        addConverter(new AbstractConverter<Obra, ObraJPA>() {
+            @Override
+            protected ObraJPA convert(Obra source) {
+                var obraJPA = new ObraJPA();
+                obraJPA.setDoi(map(source.getDoi(), String.class));
+                obraJPA.setTitulo(source.getTitulo());
+                obraJPA.setResumo(source.getResumo());
+                obraJPA.setDataPublicacao(source.getDataPublicacao());
+                obraJPA.setCitacaoAbnt(source.getCitacaoAbnt());
+
+                // Converte palavras-chave
+                var palavrasChave = source.getPalavrasChave().stream()
+                        .map(pc -> map(pc, String.class))
+                        .collect(Collectors.toList());
+                obraJPA.setPalavrasChave(palavrasChave);
+
+                // Converte autores
+                var autores = source.getAutores().stream()
+                        .map(autorId -> autorJpaRepository.findById(autorId.getId())
+                                .orElseThrow(() -> new RuntimeException("Autor não encontrado: " + autorId)))
+                        .collect(Collectors.toList());
+                obraJPA.setAutoresObra(autores);
+
+                return obraJPA;
+            }
+        });
+
+// Conversão de ObraJPA para Obra
+        addConverter(new AbstractConverter<ObraJPA, Obra>() {
+            @Override
+            protected Obra convert(ObraJPA source) {
+                var doi = map(source.getDoi(), DOI.class);
+
+                // Converte autores
+                var autores = source.getAutoresObra().stream()
+                        .map(autorJPA -> new AutorId(autorJPA.getId()))
+                        .collect(Collectors.toList());
+
+                // Converte palavras-chave
+                var palavrasChave = source.getPalavrasChave().stream()
+                        .map(pc -> map(pc, PalavraChave.class))
+                        .collect(Collectors.toList());
+
+                return new Obra(
+                        doi,
+                        source.getTitulo(),
+                        autores,
+                        palavrasChave,
+                        source.getResumo(),
+                        source.getDataPublicacao(),
+                        source.getCitacaoAbnt()
+                );
+            }
+        });
+
     }
     @Override
     public <D> D map(Object source, Class<D> destinationType) {

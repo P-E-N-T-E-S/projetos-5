@@ -19,7 +19,7 @@ public class LivroJPA {
             joinColumns = @JoinColumn(name = "isbn"),
             inverseJoinColumns = @JoinColumn(name = "autor_id")
     )
-    private List<AutorJPA> autores;
+    private List<AutorJPA> autoresLivro;
     private String sinopse;
     private String numeroChamada;
     private int anoDePublicacao;
