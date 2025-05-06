@@ -32,4 +32,9 @@ public class ObraService {
     public List<Obra> buscarPorPalavraChave(String palavraChave){
         return repository.buscarPorPalavraChave(palavraChave);
     }
+
+    public byte[] buscarPDF(DOI doi){
+        Obra obra = repository.buscarPorId(doi);
+        return obra.getArquivoPdf();
+    }
 }
