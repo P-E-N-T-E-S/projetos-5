@@ -272,6 +272,8 @@ public class JpaMapeador extends ModelMapper{
                 obraJPA.setResumo(source.getResumo());
                 obraJPA.setDataPublicacao(source.getDataPublicacao());
                 obraJPA.setCitacaoAbnt(source.getCitacaoAbnt());
+                obraJPA.setArquivoPDF(source.getArquivoPdf());
+
 
                 // Converte palavras-chave
                 var palavrasChave = source.getPalavrasChave().stream()
@@ -313,7 +315,8 @@ public class JpaMapeador extends ModelMapper{
                         palavrasChave,
                         source.getResumo(),
                         source.getDataPublicacao(),
-                        source.getCitacaoAbnt()
+                        source.getCitacaoAbnt(),
+                        source.getArquivoPDF()
                 );
             }
         });

@@ -13,8 +13,9 @@ public class Obra { //obra digital, tcc
     private String resumo;
     private LocalDate dataPublicacao;
     private String citacaoAbnt;
+    private byte[] arquivoPdf;
 
-    public Obra(DOI doi, String titulo, List<AutorId> autores, List<PalavraChave> palavrasChave, String resumo, LocalDate dataPublicacao, String citacaoAbnt) {
+    public Obra(DOI doi, String titulo, List<AutorId> autores, List<PalavraChave> palavrasChave, String resumo, LocalDate dataPublicacao, String citacaoAbnt, byte[] arquivoPdf) {
         this.doi = doi;
         this.titulo = titulo;
         this.autores = autores;
@@ -22,6 +23,7 @@ public class Obra { //obra digital, tcc
         this.resumo = resumo;
         this.dataPublicacao = dataPublicacao;
         this.citacaoAbnt = citacaoAbnt;
+        this.arquivoPdf = arquivoPdf;
     }
 
     public DOI getDoi() {
@@ -78,5 +80,13 @@ public class Obra { //obra digital, tcc
 
     public void setCitacaoAbnt(String citacaoAbnt) {
         this.citacaoAbnt = citacaoAbnt;
+    }
+
+    public byte[] getArquivoPdf() {
+        return arquivoPdf;
+    }
+
+    public void setArquivoPdf(byte[] arquivoPdf) {
+        this.arquivoPdf = arquivoPdf;
     }
 }

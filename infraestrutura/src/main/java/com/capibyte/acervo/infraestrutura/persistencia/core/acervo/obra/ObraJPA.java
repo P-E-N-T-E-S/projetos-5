@@ -31,6 +31,11 @@ public class ObraJPA {
     private LocalDate dataPublicacao;
     private String citacaoAbnt;
 
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "arquivo_pdf", nullable = false)
+    private byte[] arquivoPDF;
+
     public String getDoi() {
         return doi;
     }
@@ -85,5 +90,13 @@ public class ObraJPA {
 
     public void setCitacaoAbnt(String citacaoAbnt) {
         this.citacaoAbnt = citacaoAbnt;
+    }
+
+    public byte[] getArquivoPDF() {
+        return arquivoPDF;
+    }
+
+    public void setArquivoPDF(byte[] arquivoPDF) {
+        this.arquivoPDF = arquivoPDF;
     }
 }
