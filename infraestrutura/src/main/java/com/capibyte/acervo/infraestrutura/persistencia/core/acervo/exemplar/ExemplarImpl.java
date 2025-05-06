@@ -44,4 +44,9 @@ public class ExemplarImpl implements ExemplarRepository {
         }
         return null;
     }
+
+    @Override
+    public void deletar(CodigoDaObra id) {
+        exemplarRepositorio.deleteById(id.getId());
+    }
 }

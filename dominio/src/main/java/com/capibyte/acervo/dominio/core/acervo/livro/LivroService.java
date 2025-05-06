@@ -14,4 +14,8 @@ public class LivroService {
     public void salvar(Livro livro){
         livroRepository.salvar(livro);
     }
+
+    public void deletar(Isbn isbn){
+        livroRepository.deletar(isbn);
+    }
 }

@@ -1,5 +1,6 @@
 package com.capibyte.acervo.infraestrutura.persistencia.core.acervo.livro;
 
+import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import com.capibyte.acervo.dominio.core.acervo.livro.Livro;
 import com.capibyte.acervo.dominio.core.acervo.livro.LivroRepository;
 import com.capibyte.acervo.infraestrutura.persistencia.JpaMapeador;
@@ -20,5 +21,10 @@ public class LivroImpl implements LivroRepository {
     public void salvar(Livro livro){
         LivroJPA livroJPA = mapeador.map(livro, LivroJPA.class);
         repositorio.save(livroJPA);
+    }
+
+    @Override
+    public void deletar(Isbn isbn) {
+        repositorio.deleteById(isbn.toString());
     }
 }

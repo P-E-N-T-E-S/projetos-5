@@ -18,4 +18,8 @@ public class ExemplarService {
     public Exemplar buscarPorId(CodigoDaObra id){
         return exemplarRepository.buscarPorId(id);
     }
+
+    public void deletar(CodigoDaObra id){
+        exemplarRepository.deletar(id);
+    }
 }

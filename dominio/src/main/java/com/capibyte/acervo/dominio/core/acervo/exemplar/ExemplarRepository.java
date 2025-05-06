@@ -8,4 +8,6 @@ public interface ExemplarRepository {
     Exemplar buscarPorId(CodigoDaObra codigoDaObra);
 
     List<Exemplar> buscarPorIsbn(String isbn);
+
+    void deletar(CodigoDaObra id);
 }

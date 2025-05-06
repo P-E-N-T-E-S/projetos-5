@@ -7,10 +7,7 @@ import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarService;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Localizacao;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/exemplares")
@@ -26,5 +23,16 @@ public class ExemplarController {
     public ResponseEntity<String > adicionarExemplar(@RequestBody ExemplarDTO exemplarDTO) {
         exemplarService.salvar(new Exemplar(new CodigoDaObra(exemplarDTO.codigo()), new Isbn(exemplarDTO.isbn()), new Localizacao(exemplarDTO.andar(), exemplarDTO.prateleira())));
         return ResponseEntity.ok("Exemplar adicionado com sucesso");
+    }
+
+    @DeleteMapping("/deletar")
+    public ResponseEntity<String> deletarExemplar(@RequestParam Long codigo) {
+        exemplarService.deletar(new CodigoDaObra(codigo));
+        return ResponseEntity.ok("Exemplar deletado com sucesso");
+    }
+
+    @GetMapping("/{codigo}")
+    public ResponseEntity<Exemplar>obterPorCodigo(@PathVariable Long codigo) {
+        return ResponseEntity.ok(exemplarService.buscarPorId(new CodigoDaObra(codigo)));
     }
 }

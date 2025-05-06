@@ -47,25 +47,25 @@ public class ListaController {
         }
     }
 
-    @PostMapping("/{id}/adicionarLivro")
+    @PutMapping("/{id}/adicionarLivro")
     public ResponseEntity<String> adicionarLivro(@PathVariable Long id, String isbn) {
         leituraService.adicionarLivro(new ListaId(id), new Isbn(isbn));
         return new ResponseEntity<>("Livro adicionado à lista!", HttpStatus.CREATED);
     }
 
-    @PostMapping("/{id}/adicionarObra")
+    @PutMapping("/{id}/adicionarObra")
     public ResponseEntity<String> adicionarObra(@PathVariable Long id, String doi) {
         leituraService.adicionarObra(new ListaId(id), new DOI(doi));
         return new ResponseEntity<>("Obra adicionada à lista!", HttpStatus.CREATED);
     }
 
-    @PostMapping("/{id}/removerObra")
+    @PutMapping("/{id}/removerObra")
     public ResponseEntity<String> removerObra(@PathVariable Long id, String codigoDaObra) {
         leituraService.removerObra(new ListaId(id), new DOI(codigoDaObra));
         return new ResponseEntity<>("Obra removido da lista!", HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/removerLivro")
+    @PutMapping("/{id}/removerLivro")
     public ResponseEntity<String> removerLivro(@PathVariable Long id, String isbn) {
         leituraService.removerLivro(new ListaId(id), new Isbn(isbn));
         return new ResponseEntity<>("Livro removido da lista!", HttpStatus.OK);

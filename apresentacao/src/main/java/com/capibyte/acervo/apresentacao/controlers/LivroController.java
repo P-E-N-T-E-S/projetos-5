@@ -6,7 +6,6 @@ import com.capibyte.acervo.dominio.core.acervo.autor.AutorService;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import com.capibyte.acervo.dominio.core.acervo.livro.Livro;
 import com.capibyte.acervo.dominio.core.acervo.livro.LivroService;
-import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.opiniao.Comentario;
 import com.capibyte.acervo.dominio.core.opiniao.ComentarioService;
@@ -41,6 +40,12 @@ public class LivroController {
         List<AutorId> autores = autorService.processarEntrada(livroDTO.autores());
         livroService.salvar(new Livro(new Isbn(livroDTO.isbn()), livroDTO.titulo(), autores, livroDTO.sinopse(), livroDTO.numeroChamada(), livroDTO.anoPublicacao(), livroDTO.quantidadeDePaginas(), livroDTO.temas()));
         return ResponseEntity.ok("Livro adicionado com sucesso");
+    }
+
+    @DeleteMapping("/lib/deletar")
+    public ResponseEntity<String> deletarLivro(@RequestParam String isbn) {
+        livroService.deletar(new Isbn(isbn));
+        return ResponseEntity.ok("Livro deletado com sucesso");
     }
 
     @GetMapping("/{isbn}/comentarios")
