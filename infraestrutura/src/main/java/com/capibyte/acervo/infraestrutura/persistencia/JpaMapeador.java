@@ -2,7 +2,6 @@ package com.capibyte.acervo.infraestrutura.persistencia;
 
 import com.capibyte.acervo.dominio.core.acervo.autor.Autor;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
-import com.capibyte.acervo.dominio.core.acervo.autor.AutorRepository;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Localizacao;
@@ -15,6 +14,8 @@ import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Periodo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Solicitacao;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.SolicitacaoId;
+import com.capibyte.acervo.dominio.core.administracao.salvo.ListaId;
+import com.capibyte.acervo.dominio.core.administracao.salvo.ListaLeitura;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
@@ -27,9 +28,11 @@ import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.exemplar.Loca
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.livro.LivroJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.livro.LivroRepositorio;
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.obra.ObraJPA;
+import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.obra.ObraRepositorio;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.EmprestimoJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.PeriodoJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.emprestimo.SolicitacaoJPA;
+import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.salvo.ListaLeituraJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioJPA;
 import com.capibyte.acervo.infraestrutura.persistencia.core.administracao.usuario.UsuarioJpaRepository;
 import com.capibyte.acervo.infraestrutura.persistencia.core.opiniao.ComentarioJPA;
@@ -39,6 +42,8 @@ import org.modelmapper.config.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -52,6 +57,9 @@ public class JpaMapeador extends ModelMapper{
 
     @Autowired
     private UsuarioJpaRepository usuarioRepositorio;
+
+    @Autowired
+    private ObraRepositorio obraRepositorio;
 
     JpaMapeador(){
         var configuracao = getConfiguration();
@@ -320,6 +328,77 @@ public class JpaMapeador extends ModelMapper{
                 );
             }
         });
+
+        addConverter(new AbstractConverter<ListaLeituraJPA, ListaLeitura>() {
+            @Override
+            protected ListaLeitura convert(ListaLeituraJPA entity) {
+                if (entity == null) return null;
+                Matricula matricula = new Matricula(entity.getUsuario().getMatricula());
+                ListaId listaId = new ListaId(entity.getId());
+
+                List<Isbn> livros = new ArrayList<>();
+                if (entity.getLivros() != null) {
+                    for (LivroJPA livroJPA : entity.getLivros()) {
+                        livros.add(new Isbn(livroJPA.getIsbn()));
+                    }
+                }
+
+                List<DOI> obras = new ArrayList<>();
+                if (entity.getObras() != null) {
+                    for (ObraJPA obraJPA : entity.getObras()) {
+                        obras.add(new DOI(obraJPA.getDoi()));
+                    }
+                }
+
+                return new ListaLeitura(
+                        listaId,
+                        matricula,
+                        entity.getTitulo(),
+                        entity.getDescricao(),
+                        livros,
+                        obras,
+                        entity.isPrivado()
+                );
+            }
+        });
+
+        addConverter(new AbstractConverter<ListaLeitura, ListaLeituraJPA>() {
+            @Override
+            protected ListaLeituraJPA convert(ListaLeitura domain) {
+                if (domain == null) return null;
+                ListaLeituraJPA entity = new ListaLeituraJPA();
+
+                if (domain.getId() != null) {
+                    entity.setId(domain.getId().getCodigo());
+                }
+                UsuarioJPA usuarioJPA = usuarioRepositorio.findByMatricula(domain.getUsuario().getCodigo());
+                entity.setUsuario(usuarioJPA);
+
+                entity.setTitulo(domain.getTitulo());
+                entity.setDescricao(domain.getDescricao());
+                entity.setPrivado(!domain.isPublico());
+
+                if (domain.getLivros() != null) {
+                    List<LivroJPA> livrosJPA = new ArrayList<>();
+                    for (Isbn isbn : domain.getLivros()) {
+                        LivroJPA livroJPA = livroRepositorio.findByIsbn(isbn.getCodigo());
+                        if (livroJPA != null) livrosJPA.add(livroJPA);
+                    }
+                    entity.setLivros(livrosJPA);
+                }
+
+                if (domain.getObras() != null) {
+                    List<ObraJPA> obrasJPA = new ArrayList<>();
+                    for (DOI doi : domain.getObras()) {
+                        obraRepositorio.findById(doi.getCodigo()).ifPresent(obrasJPA::add);
+                    }
+                    entity.setObras(obrasJPA);
+                }
+
+                return entity;
+            }
+        });
+
 
     }
     @Override

@@ -14,7 +14,7 @@ public class ListaLeituraJPA {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "usuario_matricula", nullable = false)
     private UsuarioJPA usuario;
 
@@ -35,4 +35,60 @@ public class ListaLeituraJPA {
     )
     private List<ObraJPA> obras;
     private boolean privado;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public UsuarioJPA getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioJPA usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public List<LivroJPA> getLivros() {
+        return livros;
+    }
+
+    public void setLivros(List<LivroJPA> livros) {
+        this.livros = livros;
+    }
+
+    public List<ObraJPA> getObras() {
+        return obras;
+    }
+
+    public void setObras(List<ObraJPA> obras) {
+        this.obras = obras;
+    }
+
+    public boolean isPrivado() {
+        return privado;
+    }
+
+    public void setPrivado(boolean privado) {
+        this.privado = privado;
+    }
 }

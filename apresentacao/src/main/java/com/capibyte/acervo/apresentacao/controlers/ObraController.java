@@ -70,7 +70,7 @@ public class ObraController {
         return ResponseEntity.ok(obraService.listarTodos());
     }
 
-    @GetMapping()
+    @GetMapping("/chave/{palavraChave}")
     public ResponseEntity<List<Obra>>obterObrasPorPalavraChave(@RequestParam String palavraChave) {
         return ResponseEntity.ok(obraService.buscarPorPalavraChave(palavraChave));
     }

@@ -36,12 +36,11 @@ public class EmprestimoService {
             realizarEmprestimo(codigoDaObra, solicitacao.getTomador());
 
         }
-        solicitacaoService.deletarSolicitacao(solicitacao);
+        solicitacaoService.deletarSolicitacao(id);
     }
 
     public void recusarEmprestimo(Long id){
-        Solicitacao solicitacao = solicitacaoService.buscarSolicitacaoPorId(id);
-        solicitacaoService.deletarSolicitacao(solicitacao);
+        solicitacaoService.deletarSolicitacao(id);
         //TODO: enviar uma mensagem para quem fez a solicitacao
     }
 }

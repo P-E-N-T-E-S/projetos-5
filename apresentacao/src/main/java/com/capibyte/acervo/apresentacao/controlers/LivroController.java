@@ -58,8 +58,8 @@ public class LivroController {
         return ResponseEntity.ok(livroService.listarTodos());
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Livro>>listarLivrosPorTemas(@RequestParam String tema) {
+    @GetMapping("/tema/{tema}")
+    public ResponseEntity<List<Livro>>listarLivrosPorTemas(@PathVariable String tema) {
         return ResponseEntity.ok(livroService.buscarPorTema(tema));
     }
 
