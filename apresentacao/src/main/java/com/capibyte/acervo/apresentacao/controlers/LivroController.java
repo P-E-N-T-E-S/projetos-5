@@ -48,6 +48,21 @@ public class LivroController {
         return ResponseEntity.ok("Livro deletado com sucesso");
     }
 
+    @GetMapping("/{isbn}")
+    public ResponseEntity<Livro>obterPorIsbn(@PathVariable String isbn) {
+        return ResponseEntity.ok(livroService.buscarPorIsbn(new Isbn(isbn)));
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Livro>>listarLivros() {
+        return ResponseEntity.ok(livroService.listarTodos());
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Livro>>listarLivrosPorTemas(@RequestParam String tema) {
+        return ResponseEntity.ok(livroService.buscarPorTema(tema));
+    }
+
     @GetMapping("/{isbn}/comentarios")
     public ResponseEntity<List<Comentario>>paginaLivro(@PathVariable String isbn) {
         return ResponseEntity.ok(comentarioService.listarComentarios(isbn));

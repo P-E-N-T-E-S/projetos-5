@@ -43,4 +43,14 @@ public class ObraController {
     public ResponseEntity<Obra>obterPorDoi(@PathVariable String doi) {
         return ResponseEntity.ok(obraService.buscarPorId(new DOI(doi)));
     }
+
+    @GetMapping()
+    public ResponseEntity<List<Obra>>listarObras() {
+        return ResponseEntity.ok(obraService.listarTodos());
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Obra>>obterObrasPorPalavraChave(@RequestParam String palavraChave) {
+        return ResponseEntity.ok(obraService.buscarPorPalavraChave(palavraChave));
+    }
 }

@@ -7,7 +7,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface LivroRepositorio extends JpaRepository<LivroJPA, String> {
-    @Query("SELECT l FROM LivroJPA l JOIN l.autores a WHERE a.id = :autorId")
+    @Query("SELECT l FROM LivroJPA l JOIN l.autoresLivro a WHERE a.id = :autorId")
     List<LivroJPA> findByAutorId(@Param("autorId") Long autorId);
     LivroJPA findByIsbn(String isbn);
+    @Query("SELECT l FROM LivroJPA l JOIN l.temas t WHERE t = :tema")
+    List<LivroJPA> findByTema(@Param("tema") String tema);
+
 }

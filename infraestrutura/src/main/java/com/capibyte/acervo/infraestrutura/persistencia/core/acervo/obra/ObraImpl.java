@@ -6,6 +6,8 @@ import com.capibyte.acervo.dominio.core.acervo.obra.ObraRepository;
 import com.capibyte.acervo.infraestrutura.persistencia.JpaMapeador;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class ObraImpl implements ObraRepository {
 
@@ -33,5 +35,15 @@ public class ObraImpl implements ObraRepository {
     @Override
     public void deletar(DOI doi) {
         repository.deleteById(doi.toString());
+    }
+
+    @Override
+    public List<Obra> obterTodos() {
+        return repository.findAll().stream().map(jpa -> mapeador.map(jpa, Obra.class)).toList() ;
+    }
+
+    @Override
+    public List<Obra> buscarPorPalavraChave(String palavraChave) {
+        return repository.findByPalavraChave(palavraChave).stream().map(jpa -> mapeador.map(jpa, Obra.class)).toList();
     }
 }

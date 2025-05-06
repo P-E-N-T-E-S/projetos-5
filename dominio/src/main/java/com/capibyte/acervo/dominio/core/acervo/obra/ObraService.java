@@ -2,6 +2,8 @@ package com.capibyte.acervo.dominio.core.acervo.obra;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ObraService {
 
@@ -21,5 +23,13 @@ public class ObraService {
 
     public void deletar(DOI doi){
         repository.deletar(doi);
+    }
+
+    public List<Obra> listarTodos(){
+        return repository.obterTodos();
+    }
+
+    public List<Obra> buscarPorPalavraChave(String palavraChave){
+        return repository.buscarPorPalavraChave(palavraChave);
     }
 }
