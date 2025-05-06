@@ -29,4 +29,9 @@ public class ObraImpl implements ObraRepository {
         String codigo = doi.toString();
         return repository.findById(codigo).map(jpa -> mapeador.map(jpa, Obra.class)).orElse(null);
     }
+
+    @Override
+    public void deletar(DOI doi) {
+        repository.deleteById(doi.toString());
+    }
 }

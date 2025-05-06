@@ -21,7 +21,8 @@ public class SolicitacaoService {
         return solicitacaoRepository.buscarPorId(codigo);
     }
 
-    public void deletarSolicitacao(Solicitacao solicitacao){
+    public void deletarSolicitacao(Long id){
+        Solicitacao solicitacao = buscarSolicitacaoPorId(id);
         solicitacaoRepository.deletar(solicitacao);
     }
 

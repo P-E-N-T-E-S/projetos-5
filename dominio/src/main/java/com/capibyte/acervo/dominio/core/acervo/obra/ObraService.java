@@ -18,4 +18,8 @@ public class ObraService {
     public Obra buscarPorId(DOI doi) {
         return repository.buscarPorId(doi);
     }
+
+    public void deletar(DOI doi){
+        repository.deletar(doi);
+    }
 }

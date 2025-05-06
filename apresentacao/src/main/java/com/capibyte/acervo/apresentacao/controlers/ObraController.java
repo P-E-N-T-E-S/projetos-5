@@ -8,9 +8,7 @@ import com.capibyte.acervo.dominio.core.acervo.obra.Obra;
 import com.capibyte.acervo.dominio.core.acervo.obra.ObraService;
 import com.capibyte.acervo.dominio.core.acervo.obra.PalavraChave;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +31,16 @@ public class ObraController {
         List<PalavraChave> palavraChaves = obraDTO.palavrasChave().stream().map(PalavraChave::new).toList();
         obraService.salvar(new Obra(new DOI(obraDTO.doi()), obraDTO.titulo(), autores, palavraChaves, obraDTO.resumo(), obraDTO.dataPublicacao(), obraDTO.citacaoAbnt()));
         return ResponseEntity.ok("Obra adicionada com sucesso");
+    }
+
+    @DeleteMapping("/lib/deletar")
+    public ResponseEntity<String> deletarObra(@RequestParam String doi) {
+        obraService.deletar(new DOI(doi));
+        return ResponseEntity.ok("Obra deletada com sucesso");
+    }
+
+    @GetMapping("/{doi}")
+    public ResponseEntity<Obra>obterPorDoi(@PathVariable String doi) {
+        return ResponseEntity.ok(obraService.buscarPorId(new DOI(doi)));
     }
 }
