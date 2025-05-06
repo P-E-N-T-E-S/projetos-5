@@ -36,9 +36,10 @@ public class SolicitacaoController {
         }
     }
 
-    @GetMapping("/hello")
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("Hello World");
+    @DeleteMapping("/cancelar/{id}")
+    public ResponseEntity<String> cancelarEmprestimo(@PathVariable Long id) {
+        solicitacaoService.cancelarSolicitacao(id);
+        return new ResponseEntity<>("Solicitação cancelada!", HttpStatus.OK);
     }
 }
 

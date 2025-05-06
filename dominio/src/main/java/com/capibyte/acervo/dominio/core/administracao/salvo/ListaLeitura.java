@@ -99,4 +99,12 @@ public class ListaLeitura {
     public void removeObra(DOI obra) {
         this.obras.remove(obra);
     }
+
+    public boolean isPublico() {
+        return !privado;
+    }
+
+    public void setPrivado(boolean privado) {
+        this.privado = privado;
+    }
 }

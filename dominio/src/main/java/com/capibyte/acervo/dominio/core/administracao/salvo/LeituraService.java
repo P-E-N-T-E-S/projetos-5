@@ -27,6 +27,10 @@ public class LeituraService {
         repository.excluirPorID(id);
     }
 
+    public ListaLeitura buscarListaPorID(ListaId id){
+        return repository.buscarPorID(id);
+    }
+
     public void adicionarLivro(ListaId id, Isbn livro){
         ListaLeitura lista = repository.buscarPorID(id);
         lista.addLivro(livro);
@@ -39,7 +43,23 @@ public class LeituraService {
         repository.salvar(lista);
     }
 
-    public List<ListaLeitura> listarLeiturasPorAluno(Matricula aluno){
+    public void removerLivro(ListaId id, Isbn livro){
+        ListaLeitura lista = repository.buscarPorID(id);
+        lista.removeLivro(livro);
+        repository.salvar(lista);
+    }
+
+    public void removerObra(ListaId id, DOI obra){
+        ListaLeitura lista = repository.buscarPorID(id);
+        lista.removeObra(obra);
+        repository.salvar(lista);
+    }
+
+    public List<ListaLeitura> listarTodasLeiturasPorAluno(Matricula aluno){
         return repository.listarPorAluno(aluno);
+    }
+
+    public List<ListaLeitura> listarLeiturasPublicasPorAluno(Matricula aluno){
+        return repository.listarPorAluno(aluno).stream().filter(ListaLeitura::isPublico).toList();
     }
 }
