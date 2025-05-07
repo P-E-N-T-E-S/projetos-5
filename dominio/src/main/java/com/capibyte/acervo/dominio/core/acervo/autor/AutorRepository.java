@@ -4,4 +4,5 @@ public interface AutorRepository {
 
     void salvar(Autor autor);
     Autor buscarPorNome(String nome);
+    Autor buscarPorId(AutorId id);
 }

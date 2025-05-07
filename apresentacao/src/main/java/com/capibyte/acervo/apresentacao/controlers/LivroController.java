@@ -1,6 +1,8 @@
 package com.capibyte.acervo.apresentacao.controlers;
 
 import com.capibyte.acervo.apresentacao.dto.LivroDTO;
+import com.capibyte.acervo.apresentacao.dto.LivroDetalhadoDTO;
+import com.capibyte.acervo.dominio.core.acervo.autor.Autor;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorService;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
@@ -49,18 +51,21 @@ public class LivroController {
     }
 
     @GetMapping("/{isbn}")
-    public ResponseEntity<Livro>obterPorIsbn(@PathVariable String isbn) {
-        return ResponseEntity.ok(livroService.buscarPorIsbn(new Isbn(isbn)));
+    public ResponseEntity<LivroDetalhadoDTO>obterPorIsbn(@PathVariable String isbn) {
+        Livro livro = livroService.buscarPorIsbn(new Isbn(isbn));
+        return ResponseEntity.ok(this.toDTO(livro));
     }
 
     @GetMapping()
-    public ResponseEntity<List<Livro>>listarLivros() {
-        return ResponseEntity.ok(livroService.listarTodos());
+    public ResponseEntity<List<LivroDetalhadoDTO>>listarLivros() {
+        List<Livro> livros = livroService.listarTodos();
+        return ResponseEntity.ok(livros.stream().map(this::toDTO).toList());
     }
 
     @GetMapping("/tema/{tema}")
-    public ResponseEntity<List<Livro>>listarLivrosPorTemas(@PathVariable String tema) {
-        return ResponseEntity.ok(livroService.buscarPorTema(tema));
+    public ResponseEntity<List<LivroDetalhadoDTO>>listarLivrosPorTemas(@PathVariable String tema) {
+        List<Livro> livros = livroService.buscarPorTema(tema);
+        return ResponseEntity.ok(livros.stream().map(this::toDTO).toList());
     }
 
     @GetMapping("/{isbn}/comentarios")
@@ -79,4 +84,25 @@ public class LivroController {
             return new ResponseEntity<>("Usuário não autenticado", HttpStatus.UNAUTHORIZED);
         }
     }
+
+    public LivroDetalhadoDTO toDTO(Livro livro) {
+        List<LivroDetalhadoDTO.AutorDTO> autoresDTO = livro.getAutores().stream()
+                .map(autorId -> {
+                    Autor autor = autorService.buscarPorId(autorId);
+                    return new LivroDetalhadoDTO.AutorDTO(autorId.getId(), autor.getNome());
+                })
+                .toList();
+
+        return new LivroDetalhadoDTO(
+                livro.getIsbn().toString(),
+                livro.getTitulo(),
+                autoresDTO,
+                livro.getSinpose(),
+                livro.getNumeroChamada(),
+                livro.getAnoDePublicacao(),
+                livro.getQuantidadeDePaginas(),
+                livro.getTemas()
+        );
+    }
+
 }

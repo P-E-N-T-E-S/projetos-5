@@ -21,6 +21,10 @@ public class AutorService {
         return autorRepository.buscarPorNome(nome);
     }
 
+    public Autor buscarPorId(AutorId id){
+        return autorRepository.buscarPorId(id);
+    }
+
     public List<AutorId> processarEntrada(List<String> autores){
         return autores.stream().map(autor -> {
             Autor achado = buscarPorNome(autor);

@@ -1,6 +1,7 @@
 package com.capibyte.acervo.infraestrutura.persistencia.core.acervo.autor;
 
 import com.capibyte.acervo.dominio.core.acervo.autor.Autor;
+import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorRepository;
 import com.capibyte.acervo.infraestrutura.persistencia.JpaMapeador;
 import org.springframework.stereotype.Repository;
@@ -24,5 +25,11 @@ public class AutorImpl implements AutorRepository {
 
     public Autor buscarPorNome(String nome){
         return mapeador.map(autorRepository.findByNome(nome).orElse(null), Autor.class);
+    }
+
+    @Override
+    public Autor buscarPorId(AutorId id) {
+        AutorJPA autorJPA = autorRepository.findById(id.getId()).orElse(null);
+        return mapeador.map(autorJPA, Autor.class);
     }
 }
