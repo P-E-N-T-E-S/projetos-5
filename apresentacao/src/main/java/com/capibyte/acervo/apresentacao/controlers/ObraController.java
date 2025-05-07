@@ -1,6 +1,8 @@
 package com.capibyte.acervo.apresentacao.controlers;
 
 import com.capibyte.acervo.apresentacao.dto.ObraDTO;
+import com.capibyte.acervo.apresentacao.dto.ObraDetalhadaDTO;
+import com.capibyte.acervo.dominio.core.acervo.autor.Autor;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorService;
 import com.capibyte.acervo.dominio.core.acervo.obra.DOI;
@@ -46,10 +48,9 @@ public class ObraController {
     }
 
     @GetMapping("/{doi}")
-    public ResponseEntity<Obra>obterPorDoi(@PathVariable String doi) {
+    public ResponseEntity<ObraDetalhadaDTO>obterPorDoi(@PathVariable String doi) {
         Obra obra = obraService.buscarPorId(new DOI(doi));
-        obra.setArquivoPdf(null);
-        return ResponseEntity.ok(obra);
+        return ResponseEntity.ok(this.toDTO(obra));
     }
 
     @GetMapping("/{doi}/download")
@@ -66,12 +67,38 @@ public class ObraController {
 
 
     @GetMapping()
-    public ResponseEntity<List<Obra>>listarObras() {
-        return ResponseEntity.ok(obraService.listarTodos());
+    public ResponseEntity<List<ObraDetalhadaDTO>>listarObras() {
+        List<Obra> obras = obraService.listarTodos();
+        return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());
     }
 
     @GetMapping("/chave/{palavraChave}")
-    public ResponseEntity<List<Obra>>obterObrasPorPalavraChave(@RequestParam String palavraChave) {
-        return ResponseEntity.ok(obraService.buscarPorPalavraChave(palavraChave));
+    public ResponseEntity<List<ObraDetalhadaDTO>>obterObrasPorPalavraChave(@RequestParam String palavraChave) {
+        List<Obra> obras = obraService.buscarPorPalavraChave(palavraChave);
+        return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());
     }
+
+    public ObraDetalhadaDTO toDTO(Obra obra) {
+        List<ObraDetalhadaDTO.AutorDTO> autoresDTO = obra.getAutores().stream()
+                .map(autorId -> {
+                    Autor autor = autorService.buscarPorId(autorId);
+                    return new ObraDetalhadaDTO.AutorDTO(autorId.getId(), autor.getNome());
+                })
+                .toList();
+
+        List<String> palavras = obra.getPalavrasChave().stream()
+                .map(PalavraChave::toString)
+                .toList();
+
+        return new ObraDetalhadaDTO(
+                obra.getDoi().toString(),
+                obra.getTitulo(),
+                autoresDTO,
+                palavras,
+                obra.getResumo(),
+                obra.getDataPublicacao(),
+                obra.getCitacaoAbnt()
+        );
+    }
+
 }
