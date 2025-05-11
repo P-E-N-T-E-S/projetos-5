@@ -8,4 +8,8 @@ public interface LivroRepository {
     Livro buscarPorIsbn(Isbn isbn);
     List<Livro> obterTodos();
     List<Livro> buscarPorTema(String tema);
+    List<Livro> buscarPorTitulo(String titulo);
+    List<Livro> buscarPorAutor(String nomeAutor);
+    List<Livro> buscarPorAnoPublicacao(int anoInicio, int anoFim);
+    List<Livro> buscarPorNumeroChamada(String numeroChamada);
 }

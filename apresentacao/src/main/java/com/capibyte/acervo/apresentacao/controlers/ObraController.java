@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -104,6 +105,26 @@ public class ObraController {
     @GetMapping("/chave")
     public ResponseEntity<List<ObraDetalhadaDTO>>obterObrasPorPalavraChave(@RequestParam String palavraChave) {
         List<Obra> obras = obraService.buscarPorPalavraChave(palavraChave);
+        return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());
+    }
+
+    @GetMapping("/titulo")
+    public ResponseEntity<List<ObraDetalhadaDTO>> buscarPorTitulo(@RequestParam String titulo) {
+        List<Obra> obras = obraService.buscarPorTitulo(titulo);
+        return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());
+    }
+
+    @GetMapping("/autor")
+    public ResponseEntity<List<ObraDetalhadaDTO>> buscarPorAutor(@RequestParam String nomeAutor) {
+        List<Obra> obras = obraService.buscarPorAutor(nomeAutor);
+        return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());
+    }
+
+    @GetMapping("/data")
+    public ResponseEntity<List<ObraDetalhadaDTO>> buscarPorDataPublicacao(
+            @RequestParam LocalDate dataInicio,
+            @RequestParam LocalDate dataFim) {
+        List<Obra> obras = obraService.buscarPorDataPublicacao(dataInicio, dataFim);
         return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());
     }
 

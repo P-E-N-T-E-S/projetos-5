@@ -7,6 +7,7 @@ import com.capibyte.acervo.infraestrutura.persistencia.JpaMapeador;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -54,5 +55,24 @@ public class ObraImpl implements ObraRepository {
         return repository.findByValidado(validado).stream().map(jpa -> mapeador.map(jpa, Obra.class)).toList() ;
     }
 
+    @Override
+    public List<Obra> buscarPorTitulo(String titulo) {
+        return repository.findByTituloContainingIgnoreCase(titulo).stream()
+                .map(jpa -> mapeador.map(jpa, Obra.class))
+                .toList();
+    }
 
+    @Override
+    public List<Obra> buscarPorAutor(String nomeAutor) {
+        return repository.findByAutorNomeContainingIgnoreCase(nomeAutor).stream()
+                .map(jpa -> mapeador.map(jpa, Obra.class))
+                .toList();
+    }
+
+    @Override
+    public List<Obra> buscarPorDataPublicacao(LocalDate dataInicio, LocalDate dataFim) {
+        return repository.findByDataPublicacaoBetween(dataInicio, dataFim).stream()
+                .map(jpa -> mapeador.map(jpa, Obra.class))
+                .toList();
+    }
 }

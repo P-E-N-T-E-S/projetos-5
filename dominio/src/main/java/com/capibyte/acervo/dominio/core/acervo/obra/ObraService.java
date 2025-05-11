@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.capibyte.acervo.dominio.core.compartilhado.exceptions.ArquivoNaoDisponivelException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -57,5 +58,17 @@ public class ObraService {
         Obra obra = repository.buscarPorId(doi);
         obra.validar();
         repository.salvar(obra);
+    }
+
+    public List<Obra> buscarPorTitulo(String titulo) {
+        return repository.buscarPorTitulo(titulo);
+    }
+
+    public List<Obra> buscarPorAutor(String nomeAutor) {
+        return repository.buscarPorAutor(nomeAutor);
+    }
+
+    public List<Obra> buscarPorDataPublicacao(LocalDate dataInicio, LocalDate dataFim) {
+        return repository.buscarPorDataPublicacao(dataInicio, dataFim);
     }
 }

@@ -32,4 +32,20 @@ public class LivroService {
     public List<Livro> buscarPorTema(String tema){
         return livroRepository.buscarPorTema(tema);
     }
+
+    public List<Livro> buscarPorTitulo(String titulo) {
+        return livroRepository.buscarPorTitulo(titulo);
+    }
+
+    public List<Livro> buscarPorAutor(String nomeAutor) {
+        return livroRepository.buscarPorAutor(nomeAutor);
+    }
+
+    public List<Livro> buscarPorAnoPublicacao(int anoInicio, int anoFim) {
+        return livroRepository.buscarPorAnoPublicacao(anoInicio, anoFim);
+    }
+
+    public List<Livro> buscarPorNumeroChamada(String numeroChamada) {
+        return livroRepository.buscarPorNumeroChamada(numeroChamada);
+    }
 }

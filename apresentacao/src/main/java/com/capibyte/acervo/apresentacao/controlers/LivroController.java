@@ -85,6 +85,32 @@ public class LivroController {
         }
     }
 
+    @GetMapping("/titulo")
+    public ResponseEntity<List<LivroDetalhadoDTO>> buscarPorTitulo(@RequestParam String titulo) {
+        List<Livro> livros = livroService.buscarPorTitulo(titulo);
+        return ResponseEntity.ok(livros.stream().map(this::toDTO).toList());
+    }
+
+    @GetMapping("/autor")
+    public ResponseEntity<List<LivroDetalhadoDTO>> buscarPorAutor(@RequestParam String nomeAutor) {
+        List<Livro> livros = livroService.buscarPorAutor(nomeAutor);
+        return ResponseEntity.ok(livros.stream().map(this::toDTO).toList());
+    }
+
+    @GetMapping("/ano")
+    public ResponseEntity<List<LivroDetalhadoDTO>> buscarPorAnoPublicacao(
+            @RequestParam int anoInicio,
+            @RequestParam int anoFim) {
+        List<Livro> livros = livroService.buscarPorAnoPublicacao(anoInicio, anoFim);
+        return ResponseEntity.ok(livros.stream().map(this::toDTO).toList());
+    }
+
+    @GetMapping("/chamada")
+    public ResponseEntity<List<LivroDetalhadoDTO>> buscarPorNumeroChamada(@RequestParam String numeroChamada) {
+        List<Livro> livros = livroService.buscarPorNumeroChamada(numeroChamada);
+        return ResponseEntity.ok(livros.stream().map(this::toDTO).toList());
+    }
+
     public LivroDetalhadoDTO toDTO(Livro livro) {
         List<LivroDetalhadoDTO.AutorDTO> autoresDTO = livro.getAutores().stream()
                 .map(autorId -> {
