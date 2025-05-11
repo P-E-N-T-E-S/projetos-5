@@ -258,7 +258,7 @@ public class JpaMapeador extends ModelMapper{
         addConverter(new AbstractConverter<DOI, String>() {
             @Override
             protected String convert(DOI source) {
-                return source.toString();
+                return source.getCodigo();
             }
         });
 

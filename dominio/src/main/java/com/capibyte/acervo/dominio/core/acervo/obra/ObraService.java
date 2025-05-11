@@ -2,6 +2,8 @@ package com.capibyte.acervo.dominio.core.acervo.obra;
 
 import org.springframework.stereotype.Service;
 
+import com.capibyte.acervo.dominio.core.compartilhado.exceptions.ArquivoNaoDisponivelException;
+
 import java.util.List;
 
 @Service
@@ -33,8 +35,17 @@ public class ObraService {
         return repository.buscarPorPalavraChave(palavraChave);
     }
 
+    public void salvarPdf(DOI doi, byte[] pdf){
+        Obra obra = repository.buscarPorId(doi);
+        obra.setArquivoPdf(pdf);
+        repository.salvar(obra);
+    }
+
     public byte[] buscarPDF(DOI doi){
         Obra obra = repository.buscarPorId(doi);
+        if(obra.getArquivoPdf() == null){
+            throw new ArquivoNaoDisponivelException("Arquivo não disponível");
+        }
         return obra.getArquivoPdf();
     }
 }

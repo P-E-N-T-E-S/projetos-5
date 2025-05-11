@@ -5,6 +5,7 @@ import com.capibyte.acervo.dominio.core.acervo.obra.Obra;
 import com.capibyte.acervo.dominio.core.acervo.obra.ObraRepository;
 import com.capibyte.acervo.infraestrutura.persistencia.JpaMapeador;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,11 +29,12 @@ public class ObraImpl implements ObraRepository {
 
     @Override
     public Obra buscarPorId(DOI doi) {
-        String codigo = doi.toString();
+        String codigo = doi.getCodigo(); //TODO: parar de ser dev
         return repository.findById(codigo).map(jpa -> mapeador.map(jpa, Obra.class)).orElse(null);
     }
 
     @Override
+    @Transactional
     public void deletar(DOI doi) {
         repository.deleteById(doi.toString());
     }
@@ -45,5 +47,12 @@ public class ObraImpl implements ObraRepository {
     @Override
     public List<Obra> buscarPorPalavraChave(String palavraChave) {
         return repository.findByPalavraChave(palavraChave).stream().map(jpa -> mapeador.map(jpa, Obra.class)).toList();
+    }
+
+    @Override
+    @Transactional
+    public void salvarArquivo(Obra obra) {
+        ObraJPA obraJPA = mapeador.map(obra, ObraJPA.class);
+        repository.save(obraJPA);
     }
 }

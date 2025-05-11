@@ -6,6 +6,7 @@ import com.capibyte.acervo.dominio.core.acervo.autor.Autor;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
 import com.capibyte.acervo.dominio.core.acervo.autor.AutorService;
 import com.capibyte.acervo.dominio.core.acervo.obra.DOI;
+import com.capibyte.acervo.dominio.core.acervo.obra.DoiUtils;
 import com.capibyte.acervo.dominio.core.acervo.obra.Obra;
 import com.capibyte.acervo.dominio.core.acervo.obra.ObraService;
 import com.capibyte.acervo.dominio.core.acervo.obra.PalavraChave;
@@ -20,25 +21,36 @@ import java.util.List;
 @RequestMapping("/obras")
 public class ObraController {
 
-    private ObraService obraService;
-
-    private AutorService autorService;
+    private final ObraService obraService;
+    private final AutorService autorService;
 
     public ObraController(ObraService obraService, AutorService autorService) {
         this.obraService = obraService;
         this.autorService = autorService;
     }
 
-    @PostMapping("/lib/adicionar")
-    public ResponseEntity<String> adicionarObra(@RequestBody ObraDTO obraDTO, @RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/lib/adicionar")
+    public ResponseEntity<String> adicionarObra(@RequestBody ObraDTO obraDTO) {
         List<AutorId> autores = autorService.processarEntrada(obraDTO.autores());
         List<PalavraChave> palavraChaves = obraDTO.palavrasChave().stream().map(PalavraChave::new).toList();
-        try {
-            obraService.salvar(new Obra(new DOI(obraDTO.doi()), obraDTO.titulo(), autores, palavraChaves, obraDTO.resumo(), obraDTO.dataPublicacao(), obraDTO.citacaoAbnt(), file.getBytes()));
-            return ResponseEntity.ok("Obra adicionada com sucesso");
-        }catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar o arquivo.");
-        }
+        obraService.salvar(new Obra(
+            new DOI(obraDTO.doi()),
+            obraDTO.titulo(),
+            autores,
+            palavraChaves,
+            obraDTO.resumo(),
+            obraDTO.dataPublicacao(),
+            obraDTO.citacaoAbnt(),
+            new byte[0]
+        ));
+        return ResponseEntity.ok("Obra adicionada com sucesso");
+    }
+
+    @PostMapping(value = "/lib/{doi}/upload")
+    public ResponseEntity<String> uploadPdf(@PathVariable String doi, @RequestPart MultipartFile file) throws IOException {
+        DOI doiAjustado = new DOI(DoiUtils.mascarar(doi));
+        obraService.salvarPdf(doiAjustado, file.getBytes());
+        return ResponseEntity.ok("Arquivo PDF salvo com sucesso");
     }
 
     @DeleteMapping("/lib/deletar")
@@ -49,14 +61,17 @@ public class ObraController {
 
     @GetMapping("/{doi}")
     public ResponseEntity<ObraDetalhadaDTO>obterPorDoi(@PathVariable String doi) {
-        Obra obra = obraService.buscarPorId(new DOI(doi));
+        DOI doiAjustado = new DOI(DoiUtils.mascarar(doi));
+        Obra obra = obraService.buscarPorId(doiAjustado);
         return ResponseEntity.ok(this.toDTO(obra));
     }
 
     @GetMapping("/{doi}/download")
     public ResponseEntity<byte[]> downloadPdf(@PathVariable String doi) {
 
-        byte[] pdf = obraService.buscarPDF(new DOI(doi));
+        DOI doiAjustado = new DOI(DoiUtils.mascarar(doi));
+
+        byte[] pdf = obraService.buscarPDF(doiAjustado);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
@@ -91,7 +106,7 @@ public class ObraController {
                 .toList();
 
         return new ObraDetalhadaDTO(
-                obra.getDoi().toString(),
+                obra.getDoi().getCodigo(),
                 obra.getTitulo(),
                 autoresDTO,
                 palavras,

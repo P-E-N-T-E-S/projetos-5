@@ -54,10 +54,10 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/obras/lib/adicionar").permitAll()
                         .requestMatchers("/emprestimo").hasAuthority("ROLE_3")
                         .requestMatchers("/exemplares").hasAuthority("ROLE_3")
-                        .requestMatchers("/livros/lib").hasAuthority("ROLE_3")
-                        .requestMatchers("/obras/lib").hasAuthority("ROLE_3")
+                        .requestMatchers("/lib/**").hasAuthority("ROLE_3")
                         .anyRequest().authenticated());
 
         http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);

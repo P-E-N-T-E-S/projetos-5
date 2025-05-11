@@ -2,6 +2,8 @@ package com.capibyte.acervo.infraestrutura.persistencia.core.acervo.obra;
 
 import com.capibyte.acervo.infraestrutura.persistencia.core.acervo.autor.AutorJPA;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +21,7 @@ public class ObraJPA {
             joinColumns = @JoinColumn(name = "doi"),
             inverseJoinColumns = @JoinColumn(name = "autor_id")
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<AutorJPA> autoresObra;
     @ElementCollection
     @CollectionTable(
@@ -33,7 +36,7 @@ public class ObraJPA {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "arquivo_pdf", nullable = false)
+    @Column(name = "arquivo_pdf", nullable = true)
     private byte[] arquivoPDF;
 
     public String getDoi() {
