@@ -15,7 +15,4 @@ public interface ObraRepositorio extends JpaRepository<ObraJPA, String> {
     List<ObraJPA> findByPalavraChave(@Param("palavraChave") String palavraChave);
 
     List<ObraJPA> findByValidado(boolean validado);
-    @Modifying
-    @Query("UPDATE ObraJPA o SET o.validado = :validado WHERE o.doi = :doi")
-    void updateValidado(@Param("doi") String doi, @Param("validado") boolean validado);
 }

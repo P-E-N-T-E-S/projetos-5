@@ -94,7 +94,14 @@ public class ObraController {
         return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());
     }
 
-    @GetMapping("/chave/{palavraChave}")
+    @PutMapping("/lib/{doi}/validar")
+    public ResponseEntity<String> validarObra(@PathVariable String doi) {
+        DOI doiAjustado = new DOI(DoiUtils.mascarar(doi));
+        obraService.validar(doiAjustado);
+        return ResponseEntity.ok("Obra validada com sucesso");
+    }
+
+    @GetMapping("/chave")
     public ResponseEntity<List<ObraDetalhadaDTO>>obterObrasPorPalavraChave(@RequestParam String palavraChave) {
         List<Obra> obras = obraService.buscarPorPalavraChave(palavraChave);
         return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());

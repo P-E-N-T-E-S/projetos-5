@@ -52,4 +52,10 @@ public class ObraService {
     public List<Obra> buscarPorValidado(boolean validado){
         return repository.buscarPorValidado(validado);
     }
+
+    public void validar(DOI doi){
+        Obra obra = repository.buscarPorId(doi);
+        obra.validar();
+        repository.salvar(obra);
+    }
 }
