@@ -48,4 +48,8 @@ public class ObraService {
         }
         return obra.getArquivoPdf();
     }
+
+    public List<Obra> buscarPorValidado(boolean validado){
+        return repository.buscarPorValidado(validado);
+    }
 }

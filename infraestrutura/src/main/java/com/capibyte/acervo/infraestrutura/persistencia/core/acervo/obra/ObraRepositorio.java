@@ -12,9 +12,10 @@ import java.util.List;
 public interface ObraRepositorio extends JpaRepository<ObraJPA, String> {
 
     @Query("SELECT l FROM ObraJPA l JOIN l.palavrasChave t WHERE t = :palavraChave")
-    List<LivroJPA> findByPalavraChave(@Param("palavraChave") String palavraChave);
+    List<ObraJPA> findByPalavraChave(@Param("palavraChave") String palavraChave);
 
+    List<ObraJPA> findByValidado(boolean validado);
     @Modifying
-    @Query("Update ObraJPA set arquivoPDF = :arquivoPDF where doi = :doi")
-    void saveFile(@Param("doi") String doi, @Param("arquivoPDF") byte[] arquivoPDF);
+    @Query("UPDATE ObraJPA o SET o.validado = :validado WHERE o.doi = :doi")
+    void updateValidado(@Param("doi") String doi, @Param("validado") boolean validado);
 }

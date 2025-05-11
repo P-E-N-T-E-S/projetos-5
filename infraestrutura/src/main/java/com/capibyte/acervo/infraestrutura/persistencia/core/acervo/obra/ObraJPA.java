@@ -39,6 +39,9 @@ public class ObraJPA {
     @Column(name = "arquivo_pdf", nullable = true)
     private byte[] arquivoPDF;
 
+    @Column(name = "validado")
+    private boolean validado;
+
     public String getDoi() {
         return doi;
     }
@@ -101,5 +104,13 @@ public class ObraJPA {
 
     public void setArquivoPDF(byte[] arquivoPDF) {
         this.arquivoPDF = arquivoPDF;
+    }
+
+    public boolean isValidado() {
+        return validado;
+    }
+
+    public void setValidado(boolean validado) {
+        this.validado = validado;
     }
 }

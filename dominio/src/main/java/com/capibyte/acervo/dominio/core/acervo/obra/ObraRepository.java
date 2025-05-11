@@ -10,5 +10,6 @@ public interface ObraRepository {
     void deletar(DOI doi);
     List<Obra> obterTodos();
     List<Obra> buscarPorPalavraChave(String palavraChave);
-    void salvarArquivo(Obra obra);
+    List<Obra> buscarPorValidado(boolean validado);
+
 }

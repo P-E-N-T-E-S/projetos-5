@@ -281,7 +281,7 @@ public class JpaMapeador extends ModelMapper{
                 obraJPA.setDataPublicacao(source.getDataPublicacao());
                 obraJPA.setCitacaoAbnt(source.getCitacaoAbnt());
                 obraJPA.setArquivoPDF(source.getArquivoPdf());
-
+                
 
                 // Converte palavras-chave
                 var palavrasChave = source.getPalavrasChave().stream()
@@ -295,6 +295,7 @@ public class JpaMapeador extends ModelMapper{
                                 .orElseThrow(() -> new RuntimeException("Autor não encontrado: " + autorId)))
                         .collect(Collectors.toList());
                 obraJPA.setAutoresObra(autores);
+                obraJPA.setValidado(source.isValidado());
 
                 return obraJPA;
             }
@@ -324,7 +325,8 @@ public class JpaMapeador extends ModelMapper{
                         source.getResumo(),
                         source.getDataPublicacao(),
                         source.getCitacaoAbnt(),
-                        source.getArquivoPDF()
+                        source.getArquivoPDF(),
+                        source.isValidado()
                 );
             }
         });

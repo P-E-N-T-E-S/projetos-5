@@ -14,8 +14,9 @@ public class Obra { //obra digital, tcc
     private LocalDate dataPublicacao;
     private String citacaoAbnt;
     private byte[] arquivoPdf;
+    private boolean validado;
 
-    public Obra(DOI doi, String titulo, List<AutorId> autores, List<PalavraChave> palavrasChave, String resumo, LocalDate dataPublicacao, String citacaoAbnt, byte[] arquivoPdf) {
+    public Obra(DOI doi, String titulo, List<AutorId> autores, List<PalavraChave> palavrasChave, String resumo, LocalDate dataPublicacao, String citacaoAbnt, byte[] arquivoPdf, boolean validado) {
         this.doi = doi;
         this.titulo = titulo;
         this.autores = autores;
@@ -24,6 +25,7 @@ public class Obra { //obra digital, tcc
         this.dataPublicacao = dataPublicacao;
         this.citacaoAbnt = citacaoAbnt;
         this.arquivoPdf = arquivoPdf;
+        this.validado = validado;
     }
 
     public DOI getDoi() {
@@ -88,5 +90,17 @@ public class Obra { //obra digital, tcc
 
     public void setArquivoPdf(byte[] arquivoPdf) {
         this.arquivoPdf = arquivoPdf;
+    }
+
+    public boolean isValidado() {
+        return validado;
+    }
+
+    public void setValidado(boolean validado) {
+        this.validado = validado;
+    }
+
+    public void validar() {
+        this.validado = true;
     }
 }

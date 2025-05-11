@@ -41,7 +41,8 @@ public class ObraController {
             obraDTO.resumo(),
             obraDTO.dataPublicacao(),
             obraDTO.citacaoAbnt(),
-            new byte[0]
+            new byte[0],
+                false
         ));
         return ResponseEntity.ok("Obra adicionada com sucesso");
     }
@@ -84,6 +85,12 @@ public class ObraController {
     @GetMapping()
     public ResponseEntity<List<ObraDetalhadaDTO>>listarObras() {
         List<Obra> obras = obraService.listarTodos();
+        return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());
+    }
+
+    @GetMapping("/validado")
+    public ResponseEntity<List<ObraDetalhadaDTO>>listarObrasValidadas(@RequestParam(required = false) Boolean validado) {
+        List<Obra> obras = obraService.buscarPorValidado(validado);
         return ResponseEntity.ok(obras.stream().map(this::toDTO).toList());
     }
 

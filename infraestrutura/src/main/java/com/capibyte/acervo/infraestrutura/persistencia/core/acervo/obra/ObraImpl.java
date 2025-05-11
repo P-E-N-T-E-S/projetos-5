@@ -50,9 +50,9 @@ public class ObraImpl implements ObraRepository {
     }
 
     @Override
-    @Transactional
-    public void salvarArquivo(Obra obra) {
-        ObraJPA obraJPA = mapeador.map(obra, ObraJPA.class);
-        repository.save(obraJPA);
+    public List<Obra> buscarPorValidado(boolean validado) {
+        return repository.findByValidado(validado).stream().map(jpa -> mapeador.map(jpa, Obra.class)).toList() ;
     }
+
+
 }
