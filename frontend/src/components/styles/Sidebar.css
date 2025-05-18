@@ -1,6 +1,6 @@
 .sidebar {
     background-color: #E82121;
-    height: 100vh;
+    min-height: 100vh;
     padding: 1rem;
     align-items: center;
     width: 16rem;
@@ -62,6 +62,11 @@
 }
 
 .nav-list li a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+.nav-list li a:hover {
     background-color: rgba(255, 255, 255, 0.2);
     font-weight: 600;
 }

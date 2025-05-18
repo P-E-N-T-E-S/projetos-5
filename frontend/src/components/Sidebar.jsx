@@ -10,7 +10,7 @@ import {PiArrowsDownUp} from "react-icons/pi";
 import {IoMdSettings} from "react-icons/io";
 
 import './styles/Sidebar.css';
-import avatar from '../../assets/avatar.png';
+import avatar from '../assets/avatar.png';
 
 export const Sidebar = () => {
     return (
@@ -23,7 +23,7 @@ export const Sidebar = () => {
                 </div>
             </div>
             <ul className="nav-list">
-                <li><NavLink to="/"><FaHome className="icon" /> Home</NavLink></li>
+                <li><NavLink to="/frontend/public"><FaHome className="icon" /> Home</NavLink></li>
                 <li><NavLink to="/minhalista"><MdBook className="icon"/> Minha lista</NavLink></li>
                 <li><NavLink to="/emprestimos"><PiArrowsDownUp className="icon"/> Empréstimos</NavLink></li>
                 <li><NavLink to="/publicacoes"><MdEditNote className="icon"/> Publicações</NavLink></li>

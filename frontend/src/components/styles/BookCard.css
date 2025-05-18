@@ -1,0 +1,90 @@
+.book-card {
+    display: flex;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 1rem;
+    gap: 1.5rem;
+    max-width: 50rem;
+    margin: 1rem;
+}
+
+.book-image img {
+    width: 8rem;
+    height: auto;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+.book-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.book-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.book-title {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+    margin: 0;
+    color: #222;
+    max-width: 85%;
+}
+
+.book-author {
+    font-size: 0.875rem; /* 14px */
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.book-description {
+    font-size: 0.875rem;
+    color: #444;
+    margin: 0.75rem 0;
+    line-height: 1.4;
+}
+
+.bookmark-btn {
+    background: none;
+    border: none;
+    font-size: 1.7rem;
+    cursor: pointer;
+    color: #d32f2f;
+}
+
+.book-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-outline {
+    padding: 0.8rem 1rem;
+    border: 2px solid #f44336;
+    background: transparent;
+    color: #f44336;
+    border-radius: 0.3rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-solid {
+    padding: 0.8rem 1rem;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 0.3rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-outline:hover,
+.btn-solid:hover {
+    opacity: 0.85;
+}
