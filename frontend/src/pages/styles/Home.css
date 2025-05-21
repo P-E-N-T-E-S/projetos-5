@@ -37,14 +37,17 @@
 .tab {
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
-    padding: 0.5rem 1rem;
+    padding: 0 .6rem;
+    margin-inline: .5rem;
     cursor: pointer;
     color: #1D1D1D;
     font-weight: 400;
+    text-decoration: none;
 }
 
 .tab.active {
     font-weight: 500;
+    border-bottom: 2px solid #1D1D1D;
 }
 
 .book-section {
