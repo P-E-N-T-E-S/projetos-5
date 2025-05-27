@@ -19,7 +19,7 @@ public interface ObraRepositorio extends JpaRepository<ObraJPA, String> {
     @Query("SELECT o FROM ObraJPA o WHERE LOWER(o.titulo) LIKE LOWER(CONCAT('%', :titulo, '%'))")
     List<ObraJPA> findByTituloContainingIgnoreCase(@Param("titulo") String titulo);
 
-    @Query("SELECT o FROM ObraJPA o JOIN o.autores a WHERE LOWER(a.nome) LIKE LOWER(CONCAT('%', :nomeAutor, '%'))")
+    @Query("SELECT o FROM ObraJPA o JOIN o.autoresObra a WHERE LOWER(a.nome) LIKE LOWER(CONCAT('%', :nomeAutor, '%'))")
     List<ObraJPA> findByAutorNomeContainingIgnoreCase(@Param("nomeAutor") String nomeAutor);
 
     @Query("SELECT o FROM ObraJPA o WHERE o.dataPublicacao BETWEEN :dataInicio AND :dataFim")

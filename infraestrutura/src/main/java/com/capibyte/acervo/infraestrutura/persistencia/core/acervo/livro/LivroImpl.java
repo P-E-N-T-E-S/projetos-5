@@ -44,4 +44,24 @@ public class LivroImpl implements LivroRepository {
     public List<Livro> buscarPorTema(String tema) {
         return repositorio.findByTema(tema).stream().map(jpa -> mapeador.map(jpa, Livro.class)).toList() ;
     }
+
+    @Override
+    public List<Livro> buscarPorTitulo(String titulo) {
+        return List.of();
+    }
+
+    @Override
+    public List<Livro> buscarPorAutor(String nomeAutor) {
+        return List.of();
+    }
+
+    @Override
+    public List<Livro> buscarPorAnoPublicacao(int anoInicio, int anoFim) {
+        return List.of();
+    }
+
+    @Override
+    public List<Livro> buscarPorNumeroChamada(String numeroChamada) {
+        return List.of();
+    }
 }
