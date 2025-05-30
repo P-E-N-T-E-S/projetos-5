@@ -1,11 +1,29 @@
-import React from 'react';
-import "./styles/Home.css"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import api from "../services/api.js"
+import "./styles/Home.css";
 import { Sidebar } from '../components/Sidebar.jsx';
-import {NavLink} from "react-router-dom";
-import {FaBell, FaSearch} from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import { FaBell, FaSearch } from "react-icons/fa";
 import BookCard from "../components/BookCard.jsx";
 
 const Home = () => {
+    const [livros, setLivros] = useState([]);
+
+    useEffect(() => {
+        async function fetchLivros() {
+            try {
+                const response = await api.get('/livros');
+                console.log('Livros recebidos:', response.data);
+                setLivros(response.data);
+            } catch (error) {
+                console.error('Erro ao buscar livros:', error);
+            }
+        }
+
+        fetchLivros();
+    }, []);
+
     return (
         <div className="app-container">
             <Sidebar />
@@ -14,11 +32,10 @@ const Home = () => {
                 <div className="header">
                     <h1 className="page-title">Home</h1>
                     <div className="icons">
-                        <NavLink to="/multas"><FaSearch className="icon"/></NavLink>
-                        <NavLink to="/multas"><FaBell className="icon"/></NavLink>
+                        <NavLink to="/multas"><FaSearch className="icon" /></NavLink>
+                        <NavLink to="/multas"><FaBell className="icon" /></NavLink>
                     </div>
                 </div>
-
 
                 <nav className="tabs">
                     <NavLink to="/" className="tab">Livros</NavLink>
@@ -29,18 +46,16 @@ const Home = () => {
                 </nav>
 
                 <section className="book-section">
-                    <h2 className="section-title">Novidades</h2>
-                    <div className="book-grid">
-                        <BookCard></BookCard>
-                        <BookCard></BookCard>
-                    </div>
-                </section>
-
-                <section className="book-section">
                     <h2 className="section-title">Arquitetura de Dados (for dummies)</h2>
                     <div className="book-grid">
-                        <BookCard></BookCard>
-                        <BookCard></BookCard>
+                        {livros.map((livro) => (
+                            <BookCard
+                                key={livro.isbn}
+                                titulo={livro.titulo}
+                                autores={livro.autores}
+                                sinopse={livro.sinopse}
+                            />
+                        ))}
                     </div>
                 </section>
             </main>
