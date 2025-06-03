@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import api from "../services/api.js"
-import "./styles/Home.css";
-import { Sidebar } from '../components/Sidebar.jsx';
+import api from "../../services/api.js"
+import "../styles/Home.css";
+import { AdminSidebar } from '../../components/AdminSidebar.jsx';
 import { NavLink } from "react-router-dom";
 import { FaBell, FaSearch } from "react-icons/fa";
-import BookCard from "../components/BookCard.jsx";
+import BookCard from "../../components/BookCard.jsx";
 
-const Home = () => {
+const AdminHome = () => {
     const [livros, setLivros] = useState([]);
 
     useEffect(() => {
@@ -26,7 +25,7 @@ const Home = () => {
 
     return (
         <div className="app-container">
-            <Sidebar />
+            <AdminSidebar />
 
             <main className="main-content">
                 <div className="header">
@@ -38,7 +37,7 @@ const Home = () => {
                 </div>
 
                 <nav className="tabs">
-                    <NavLink to="/" className="tab">Livros</NavLink>
+                    <NavLink to="/frontend/public" className="tab">Livros</NavLink>
                     <NavLink to="/multas" className="tab">TCCs</NavLink>
                     <NavLink to="/multas" className="tab">Teses</NavLink>
                     <NavLink to="/multas" className="tab">Dissertações</NavLink>
@@ -63,4 +62,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default AdminHome;

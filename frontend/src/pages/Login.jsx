@@ -1,25 +1,31 @@
 import React, { useState } from 'react';
-import api from '../services/api'; // Importa o api.js que você criou
+import api from '../services/api';
 import './styles/Login.css';
 import { useNavigate } from 'react-router-dom';
+import {useAuth} from "../services/AuthContext.jsx";
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null); // Declara o estado de erro
+    const [error, setError] = useState('');
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError(null); // limpa erro antes de tentar
         try {
             const response = await api.post('/auth/login', { username, password });
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            alert('Login realizado!');
-            navigate('/'); // redireciona para home ou outra página após login
+            const { token, cargo } = response.data;
+            login(token, cargo);
+            console.log('Cargo recebido do backend:', cargo);
+            if (cargo == "ROLE_BIBLIOTECARIA") {
+                navigate('/admin');
+            }
+            else {
+                navigate('/');
+            }
         } catch (error) {
-            console.error('Erro no login:', error);
+            console.error('Erro no login', error);
             setError('Usuário ou senha inválidos');
         }
     };
