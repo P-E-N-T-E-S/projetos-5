@@ -17,8 +17,8 @@ const Login = () => {
             const response = await api.post('/auth/login', { username, password });
             const { token, cargo } = response.data;
             login(token, cargo);
-            console.log('Cargo recebido do backend:', cargo);
-            if (cargo == "ROLE_BIBLIOTECARIA") {
+
+            if (cargo === "ROLE_BIBLIOTECARIA") {
                 navigate('/admin');
             }
             else {

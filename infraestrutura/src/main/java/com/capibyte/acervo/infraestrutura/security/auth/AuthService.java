@@ -43,9 +43,7 @@ public class AuthService {
 
             String cargo = userDetails.getAuthorities().iterator().next().getAuthority();
 
-            AcessDTO acessDTO = new AcessDTO(token, cargo);
-
-            return acessDTO;
+            return new AcessDTO(token, cargo);
         }catch (BadCredentialsException e){
             //TODO: Login ou senha invalidos
             System.out.println(e.getMessage());
