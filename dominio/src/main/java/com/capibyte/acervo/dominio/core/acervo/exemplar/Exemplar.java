@@ -1,5 +1,6 @@
 package com.capibyte.acervo.dominio.core.acervo.exemplar;
 
+import com.capibyte.acervo.dominio.core.acervo.exemplar.enums.Status;
 import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Emprestimo;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Periodo;

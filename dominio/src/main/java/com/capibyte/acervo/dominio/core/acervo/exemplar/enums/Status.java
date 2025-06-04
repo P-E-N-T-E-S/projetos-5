@@ -1,4 +1,4 @@
-package com.capibyte.acervo.dominio.core.acervo.exemplar;
+package com.capibyte.acervo.dominio.core.acervo.exemplar.enums;
 
 public enum Status {
 
@@ -20,5 +20,14 @@ public enum Status {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public static Status getStatus(int id) {
+        for (Status status : Status.values()) {
+            if (status.getId() == id) {
+                return status;
+            }
+        }
+        return null;
     }
 }

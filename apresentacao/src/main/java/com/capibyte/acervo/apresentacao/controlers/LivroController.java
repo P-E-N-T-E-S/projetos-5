@@ -62,8 +62,8 @@ public class LivroController {
         return ResponseEntity.ok(livros.stream().map(this::toDTO).toList());
     }
 
-    @GetMapping("/tema/{tema}")
-    public ResponseEntity<List<LivroDetalhadoDTO>>listarLivrosPorTemas(@PathVariable String tema) {
+    @GetMapping("/tema")
+    public ResponseEntity<List<LivroDetalhadoDTO>>listarLivrosPorTemas(@RequestParam("tema") String tema) {
         List<Livro> livros = livroService.buscarPorTema(tema);
         return ResponseEntity.ok(livros.stream().map(this::toDTO).toList());
     }
