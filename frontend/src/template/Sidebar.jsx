@@ -18,7 +18,7 @@ export const Sidebar = () => {
                 </div>
             </div>
             <ul className="nav-list">
-                <li><NavLink to="/frontend/public"><FaHome className="icon" /> Home</NavLink></li>
+                <li><NavLink to="/"><FaHome className="icon" /> Home</NavLink></li>
                 <li><NavLink to="/minhalista"><MdBook className="icon"/> Minha lista</NavLink></li>
                 <li><NavLink to="/emprestimos"><PiArrowsDownUp className="icon"/> Empréstimos</NavLink></li>
                 <li><NavLink to="/publicacoes"><MdEditNote className="icon"/> Publicações</NavLink></li>

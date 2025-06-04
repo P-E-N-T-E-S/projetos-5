@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import api from "../../services/api.js"
 import "../styles/Home.css";
-import { AdminSidebar } from '../../components/AdminSidebar.jsx';
+import { AdminSidebar } from '../../template/AdminSidebar.jsx';
 import { NavLink } from "react-router-dom";
-import { FaBell, FaSearch } from "react-icons/fa";
 import BookCard from "../../components/BookCard.jsx";
+import {Header} from "../../template/Header.jsx";
 
 const AdminHome = () => {
     const [livros, setLivros] = useState([]);
@@ -28,13 +28,7 @@ const AdminHome = () => {
             <AdminSidebar />
 
             <main className="main-content">
-                <div className="header">
-                    <h1 className="page-title">Home</h1>
-                    <div className="icons">
-                        <NavLink to="/multas"><FaSearch className="icon" /></NavLink>
-                        <NavLink to="/multas"><FaBell className="icon" /></NavLink>
-                    </div>
-                </div>
+                <Header title="Dashboard"/>
 
                 <nav className="tabs">
                     <NavLink to="/frontend/public" className="tab">Livros</NavLink>

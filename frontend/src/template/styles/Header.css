@@ -1,0 +1,17 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header .icon {
+    color: #8A8587;
+    font-size: 1.6rem;
+    margin-inline: .5rem;
+}
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1D1D1D;
+}

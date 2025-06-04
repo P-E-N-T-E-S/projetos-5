@@ -69,35 +69,3 @@
     gap: 1rem;
     margin-top: auto
 }
-
-.btn-outline {
-    padding: 0.2rem 1rem;
-    border: 1px solid #FF3B30;
-    background: transparent;
-    color: #f44336;
-    border-radius: 0.4rem;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: "Montserrat", sans-serif;
-    transition: background-color 0.3s ease;
-}
-
-.btn-solid {
-    padding: 0.2rem 1rem;
-    background: #FF3B30;
-    color: white;
-    border: none;
-    border-radius: 0.4rem;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: "Montserrat", sans-serif;
-    transition: background-color 0.3s ease;
-}
-
-.btn-solid:hover {
-    background-color: #B3261E;
-}
-
-.btn-outline:hover {
-    background-color: #F9DEDC;
-}

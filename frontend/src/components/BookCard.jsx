@@ -1,9 +1,8 @@
 import React from 'react';
 import "./styles/BookCard.css"
-import {NavLink} from "react-router-dom";
-import {FaBell, FaSearch} from "react-icons/fa";
 import {MdOutlineBookmarkAdd} from "react-icons/md";
 import capa from '../assets/pythonfluente.png';
+import Button from "./Button.jsx";
 
 const BookCard = ({ titulo, autores, sinopse }) => {
     return (
@@ -24,8 +23,12 @@ const BookCard = ({ titulo, autores, sinopse }) => {
                 <p className="book-description">{sinopse}</p>
 
                 <div className="book-buttons">
-                    <button className="btn-outline">Mais detalhes</button>
-                    <button className="btn-solid">Reservar</button>
+                    <Button variante="outline" onClick={() => console.log('Mais detalhes')}>
+                        Mais detalhes
+                    </Button>
+                    <Button variante="solid" onClick={() => console.log('Reservar')}>
+                        Reservar
+                    </Button>
                 </div>
             </div>
             <div>

@@ -4,6 +4,7 @@ import Login from '../pages/Login.jsx';
 import Home from '../pages/user/Home.jsx';
 import AdminHome from '../pages/admin/AdminHome.jsx';
 import NaoAutorizado from '../pages/NaoAutorizado.jsx'
+import Lista from "../pages/user/Lista.jsx";
 
 const AppRoutes = () => (
     <Routes>
@@ -12,6 +13,7 @@ const AppRoutes = () => (
 
         <Route element={<PrivateRoute allowedCargos={["ROLE_GRADUANDO", "ROLE_MESTRADO", "ROLE_PROFESSOR"]} />}>
             <Route path="/" element={<Home />} />
+            <Route path="/minhalista" element={<Lista />} />
         </Route>
 
         <Route element={<PrivateRoute allowedCargos={["ROLE_BIBLIOTECARIA"]} />}>

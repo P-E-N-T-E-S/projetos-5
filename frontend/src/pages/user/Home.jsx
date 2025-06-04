@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import api from "../../services/api.js"
 import "../styles/Home.css";
-import { Sidebar } from '../../components/Sidebar.jsx';
+import { Sidebar } from '../../template/Sidebar.jsx';
 import { NavLink } from "react-router-dom";
-import { FaBell, FaSearch } from "react-icons/fa";
 import BookCard from "../../components/BookCard.jsx";
+import {Header} from "../../template/Header.jsx";
 
 const Home = () => {
     const [livros, setLivros] = useState([]);
@@ -13,7 +13,6 @@ const Home = () => {
         async function fetchLivros() {
             try {
                 const response = await api.get('/livros');
-                console.log('Livros recebidos:', response.data);
                 setLivros(response.data);
             } catch (error) {
                 console.error('Erro ao buscar livros:', error);
@@ -28,16 +27,10 @@ const Home = () => {
             <Sidebar />
 
             <main className="main-content">
-                <div className="header">
-                    <h1 className="page-title">Home</h1>
-                    <div className="icons">
-                        <NavLink to="/multas"><FaSearch className="icon" /></NavLink>
-                        <NavLink to="/multas"><FaBell className="icon" /></NavLink>
-                    </div>
-                </div>
+                <Header title="Home"/>
 
                 <nav className="tabs">
-                    <NavLink to="/frontend/public" className="tab">Livros</NavLink>
+                    <NavLink to="/" className="tab">Livros</NavLink>
                     <NavLink to="/multas" className="tab">TCCs</NavLink>
                     <NavLink to="/multas" className="tab">Teses</NavLink>
                     <NavLink to="/multas" className="tab">Dissertações</NavLink>
