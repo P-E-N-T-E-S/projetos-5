@@ -29,7 +29,7 @@ public class ObraService {
     }
 
     public List<Obra> listarTodos(){
-        return repository.obterTodos();
+        return repository.obterTodosObra();
     }
 
     public List<Obra> buscarPorPalavraChave(String palavraChave){
@@ -61,11 +61,11 @@ public class ObraService {
     }
 
     public List<Obra> buscarPorTitulo(String titulo) {
-        return repository.buscarPorTitulo(titulo);
+        return repository.buscarObraPorTitulo(titulo);
     }
 
     public List<Obra> buscarPorAutor(String nomeAutor) {
-        return repository.buscarPorAutor(nomeAutor);
+        return repository.buscarObraPorAutor(nomeAutor);
     }
 
     public List<Obra> buscarPorDataPublicacao(LocalDate dataInicio, LocalDate dataFim) {

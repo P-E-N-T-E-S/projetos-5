@@ -41,7 +41,7 @@ public class ObraImpl implements ObraRepository {
     }
 
     @Override
-    public List<Obra> obterTodos() {
+    public List<Obra> obterTodosObra() {
         return repository.findAll().stream().map(jpa -> mapeador.map(jpa, Obra.class)).toList() ;
     }
 
@@ -56,14 +56,14 @@ public class ObraImpl implements ObraRepository {
     }
 
     @Override
-    public List<Obra> buscarPorTitulo(String titulo) {
+    public List<Obra> buscarObraPorTitulo(String titulo) {
         return repository.findByTituloContainingIgnoreCase(titulo).stream()
                 .map(jpa -> mapeador.map(jpa, Obra.class))
                 .toList();
     }
 
     @Override
-    public List<Obra> buscarPorAutor(String nomeAutor) {
+    public List<Obra> buscarObraPorAutor(String nomeAutor) {
         return repository.findByAutorNomeContainingIgnoreCase(nomeAutor).stream()
                 .map(jpa -> mapeador.map(jpa, Obra.class))
                 .toList();
