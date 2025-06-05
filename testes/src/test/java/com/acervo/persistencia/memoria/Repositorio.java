@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Repositorio implements AutorRepository, ExemplarRepository, LivroRepository, ObraRepository, SolicitacaoRepository, LeituraRepository, UsuarioRepository, ComentarioRepository {
 
@@ -36,6 +37,7 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
     Map<Isbn, Livro> livros = new HashMap<>();
     Map<Long, Solicitacao> solicitacoes = new HashMap<>();
     Map<String, Usuario> usuarios = new HashMap<>();
+    Map<ListaId, ListaLeitura> listasDeLeitura = new HashMap<>();
 
     @Override
     public void salvar(Autor autor) {
@@ -81,9 +83,11 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
     public void deletar(Isbn isbn) {
 
     }
-
     @Override
     public Livro buscarPorIsbn(Isbn isbn) {
+        if (isbn != null) {
+            return livros.get(isbn);
+        }
         return null;
     }
 
@@ -191,22 +195,34 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public void salvar(ListaLeitura leitura) {
-
+        if (leitura != null && leitura.getId() != null) {
+            listasDeLeitura.put(leitura.getId(), leitura);
+        }
     }
 
     @Override
     public ListaLeitura buscarPorID(ListaId id) {
+        if (id != null) {
+            return listasDeLeitura.get(id);
+        }
         return null;
     }
 
     @Override
     public void excluirPorID(ListaId id) {
-
+        if (id != null) {
+            listasDeLeitura.remove(id);
+        }
     }
 
     @Override
     public List<ListaLeitura> listarPorAluno(Matricula aluno) {
-        return List.of();
+        if (aluno == null) {
+            return List.of();
+        }
+        return listasDeLeitura.values().stream()
+                .filter(lista -> lista.getUsuario() != null && lista.getUsuario().equals(aluno))
+                .collect(Collectors.toList());
     }
 
     @Override
