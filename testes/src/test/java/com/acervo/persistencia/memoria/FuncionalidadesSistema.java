@@ -4,6 +4,7 @@ import com.capibyte.acervo.dominio.core.acervo.autor.AutorService;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.ExemplarService;
 import com.capibyte.acervo.dominio.core.acervo.livro.LivroService;
 import com.capibyte.acervo.dominio.core.acervo.obra.ObraService;
+import com.capibyte.acervo.dominio.core.administracao.emprestimo.EmprestimoService;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.SolicitacaoService;
 import com.capibyte.acervo.dominio.core.administracao.salvo.LeituraService;
 import com.capibyte.acervo.dominio.core.administracao.usuario.UsuarioService;
@@ -21,6 +22,7 @@ public class FuncionalidadesSistema{
     protected UsuarioService usuarioService;
     protected ComentarioService comentarioService;
     protected PesquisaLogService pesquisaLogService;
+    protected EmprestimoService emprestimoService;
 
     public FuncionalidadesSistema(){
         var repositorio = new Repositorio();
@@ -33,6 +35,6 @@ public class FuncionalidadesSistema{
         leituraService = new LeituraService(repositorio);
         usuarioService = new UsuarioService(repositorio);
         comentarioService = new ComentarioService(repositorio);
-
+        emprestimoService = new EmprestimoService(exemplarService, usuarioService, solicitacaoService);
     }
 }

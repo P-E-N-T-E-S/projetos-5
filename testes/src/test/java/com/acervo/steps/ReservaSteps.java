@@ -1,6 +1,11 @@
 package com.acervo.steps;
+import com.acervo.persistencia.memoria.FuncionalidadesSistema;
+import com.capibyte.acervo.dominio.core.acervo.autor.AutorId;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.Exemplar;
 import com.capibyte.acervo.dominio.core.acervo.exemplar.CodigoDaObra;
+import com.capibyte.acervo.dominio.core.acervo.exemplar.Localizacao;
+import com.capibyte.acervo.dominio.core.acervo.livro.Isbn;
+import com.capibyte.acervo.dominio.core.acervo.livro.Livro;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.*;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
@@ -15,17 +20,31 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.Before;
 
 
-public class ReservaSteps {
+public class ReservaSteps extends FuncionalidadesSistema {
 
-    private Exemplar e1 = new Exemplar(new CodigoDaObra(123L), new Isbn10("0132350882"), "Tá lá", null);
-    private Exemplar e2 = new Exemplar(new CodigoDaObra(124L), new Isbn10("0132350882"), "Logo ali", null);
-    private Exemplar e3 = new Exemplar(new CodigoDaObra(125L), new Isbn10("0132350882"), "Aqui pertinho", new Emprestimo(new Periodo(LocalDate.now(), DataUtil.adicionarDiasUteis(LocalDate.now(), 5)), new Matricula("11111")));
+    List<AutorId> autores;
+    List<String> temas;
+    List<CodigoDaObra> lista = new ArrayList<>();
+
+    Livro livro = new Livro(new Isbn("1"), "Código Sujo", autores, "Sinopse do livro que legal uau", "1", 2021, 12, temas);
+    Exemplar e1 = new Exemplar(new CodigoDaObra(1L), new Isbn("1"), new Localizacao("Primeiro andar", "prateleira 2"));
+    Exemplar e2 = new Exemplar(new CodigoDaObra(2L), new Isbn("1"), new Localizacao("Segundo andar", "prateleira 1"));
+    Exemplar e3 = new Exemplar(new CodigoDaObra(3L), new Isbn("1"), new Localizacao("Terceiro andar", "prateleira 3"));
+
     private Usuario u1 = new Usuario(new Matricula("123"), "Joao Leal Farias", "jfl@cesar.school", "1234", Cargo.GRADUANDO);
     private Usuario u2 = new Usuario(new Matricula("124"), "Joao Leite Feldspato", "jfl@cesar.school", "1234", Cargo.BIBLIOTECARIA);
-    private List<CodigoDaObra> exemplares = new ArrayList<>();
-    Solicitacao solicitacao = new Solicitacao(u2.getMatricula(), LocalDate.now(), exemplares, Cargo.GRADUANDO);
+
+    @Before
+    public void setUp() {
+        usuarioService.salvar(u1);
+        exemplarService.salvar(e1);
+        exemplarService.salvar(e2);
+        exemplarService.salvar(e3);
+    }
+
     @Given("o livro Clean Code esteja disponível para reserva no acervo da faculdade")
     public void livroDisponivelAcervo(){
         assertNull(e1.getEmprestimo());
@@ -50,17 +69,19 @@ public class ReservaSteps {
     @Given("que eu seja um usuário bibliotecário no sistema")
     public void usuArioBibliotecario(){
         assertEquals(u2.getCargo(), Cargo.BIBLIOTECARIA);
+        usuarioService.salvar(u2);
     }
 
     @And("exista uma solicitação pendente para o livro Clean Architecture")
     public void reservaPendenteParaLivro(){
-        exemplares.add(e2.getExemplarId());
+        this.lista.add(e2.getCodigoDaObra());
+        solicitacaoService.salvarSolicitacao(new Solicitacao(new SolicitacaoId(1L), new Matricula("123"), LocalDate.now(), lista));
     }
 
     @When("eu aprovar a solicitação do material Clean Architecture")
     public void aprovarSolicitacao(){
-        e2.alugar(u2.getMatricula(), u1.getCargo());
-        assertTrue(solicitacao.getExemplares().isEmpty());
+        emprestimoService.aprovarEmprestimo(1L);
+
     }
 
     @Then("o sistema deve realizar o emprestimo")
@@ -76,6 +97,7 @@ public class ReservaSteps {
     @Given("que o livro Bad Code esteja registrado como reservado no sistema")
     public void livroRegistradoReservado(){
         assertInstanceOf(Exemplar.class ,e3);
+        e3.alugar(u1.getMatricula(), u1.getCargo());
         assertNotNull(e3.getEmprestimo());
     }
 
@@ -91,6 +113,6 @@ public class ReservaSteps {
 
     @And("mostrar a data prevista para a devolução do material")
     public void mostrarDataDevolucaoPrevista(){
-        assertEquals(DataUtil.adicionarDiasUteis(LocalDate.now(), 5), e3.getEmprestimo().getPeriodo().getFim());
+        assertEquals(DataUtil.adicionarDiasUteis(LocalDate.now(), 7), e3.getEmprestimo().getPeriodo().getFim());
     }
 }

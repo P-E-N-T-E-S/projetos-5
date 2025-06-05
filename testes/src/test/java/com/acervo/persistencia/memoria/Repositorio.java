@@ -13,6 +13,7 @@ import com.capibyte.acervo.dominio.core.acervo.obra.DOI;
 import com.capibyte.acervo.dominio.core.acervo.obra.Obra;
 import com.capibyte.acervo.dominio.core.acervo.obra.ObraRepository;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.Solicitacao;
+import com.capibyte.acervo.dominio.core.administracao.emprestimo.SolicitacaoId;
 import com.capibyte.acervo.dominio.core.administracao.emprestimo.SolicitacaoRepository;
 import com.capibyte.acervo.dominio.core.administracao.salvo.LeituraRepository;
 import com.capibyte.acervo.dominio.core.administracao.salvo.ListaId;
@@ -24,9 +25,19 @@ import com.capibyte.acervo.dominio.core.opiniao.Comentario;
 import com.capibyte.acervo.dominio.core.opiniao.ComentarioRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Repositorio implements AutorRepository, ExemplarRepository, LivroRepository, ObraRepository, SolicitacaoRepository, LeituraRepository, UsuarioRepository, ComentarioRepository {
+
+    Map<Long, Exemplar> exemplars = new HashMap<>();
+    Map<Isbn, Livro> livros = new HashMap<>();
+    Map<Long, Solicitacao> solicitacoes = new HashMap<>();
+    Map<String, Usuario> usuarios = new HashMap<>();
+    Map<ListaId, ListaLeitura> listasDeLeitura = new HashMap<>();
 
     @Override
     public void salvar(Autor autor) {
@@ -45,12 +56,12 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public void salvar(Exemplar exemplar) {
-
+        exemplars.put(exemplar.getCodigoDaObra().getId(), exemplar);
     }
 
     @Override
     public Exemplar buscarPorId(CodigoDaObra codigoDaObra) {
-        return null;
+        return exemplars.get(codigoDaObra.getId());
     }
 
     @Override
@@ -65,22 +76,26 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public void salvar(Livro livro) {
-
+        livros.put(livro.getIsbn(), livro);
     }
 
     @Override
     public void deletar(Isbn isbn) {
 
     }
-
     @Override
     public Livro buscarPorIsbn(Isbn isbn) {
+        if (isbn != null) {
+            return livros.get(isbn);
+        }
         return null;
     }
 
     @Override
     public List<Livro> obterTodos() {
-        return List.of();
+        List<Livro> livros_buscados = new ArrayList<>(livros.values());
+
+        return livros_buscados;
     }
 
     @Override
@@ -90,7 +105,12 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public List<Livro> buscarPorTitulo(String titulo) {
-        return List.of();
+        for (Livro livro : livros.values()) {
+            if (livro.getTitulo().equals(titulo)) {
+                return List.of(livro);
+            }
+        }
+        return null;
     }
 
     @Override
@@ -155,7 +175,7 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public void salvar(Solicitacao solicitacao) {
-
+        solicitacoes.put(solicitacao.getId().getCodigo(), solicitacao);
     }
 
     @Override
@@ -165,7 +185,7 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public Solicitacao buscarPorId(Long codigo) {
-        return null;
+        return solicitacoes.get(codigo);
     }
 
     @Override
@@ -175,32 +195,44 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public void salvar(ListaLeitura leitura) {
-
+        if (leitura != null && leitura.getId() != null) {
+            listasDeLeitura.put(leitura.getId(), leitura);
+        }
     }
 
     @Override
     public ListaLeitura buscarPorID(ListaId id) {
+        if (id != null) {
+            return listasDeLeitura.get(id);
+        }
         return null;
     }
 
     @Override
     public void excluirPorID(ListaId id) {
-
+        if (id != null) {
+            listasDeLeitura.remove(id);
+        }
     }
 
     @Override
     public List<ListaLeitura> listarPorAluno(Matricula aluno) {
-        return List.of();
+        if (aluno == null) {
+            return List.of();
+        }
+        return listasDeLeitura.values().stream()
+                .filter(lista -> lista.getUsuario() != null && lista.getUsuario().equals(aluno))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void salvar(Usuario usuario) {
-
+        usuarios.put(usuario.getMatricula().getCodigo(), usuario);
     }
 
     @Override
     public Usuario buscarPorMatricula(String matricula) {
-        return null;
+        return usuarios.get(matricula);
     }
 
     @Override

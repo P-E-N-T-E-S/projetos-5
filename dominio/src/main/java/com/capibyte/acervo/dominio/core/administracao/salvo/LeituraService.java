@@ -6,18 +6,23 @@ import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class LeituraService {
 
     private LeituraRepository repository;
-
+    AtomicLong idGenerator = new AtomicLong();
     public LeituraService(LeituraRepository repository) {
         this.repository = repository;
     }
 
     public void criarLista(Matricula aluno, String titulo, String descricao, Isbn livro, DOI obra, boolean privado){
         ListaLeitura lista = new ListaLeitura(aluno, titulo, descricao, privado);
+
+        ListaId novoId = new ListaId(idGenerator.getAndIncrement());
+        lista.setId(novoId);
+
         if(livro != null) lista.addLivro(livro);
         if(obra != null) lista.addObra(obra);
         repository.salvar(lista);
