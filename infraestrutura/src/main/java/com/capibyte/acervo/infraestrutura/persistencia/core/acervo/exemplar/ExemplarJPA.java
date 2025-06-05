@@ -26,6 +26,8 @@ public class ExemplarJPA {
     @Column(nullable = false)
     private Status status = Status.DISPONIVEL;
 
+    private Double valor;
+
     public long getCodigoDaObra() {
         return codigoDaObra;
     }
@@ -64,5 +66,13 @@ public class ExemplarJPA {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 }

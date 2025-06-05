@@ -16,13 +16,15 @@ public class Exemplar {
     private Localizacao localizacao;
     private Emprestimo emprestimo;
     private Status status;
+    private Double valor;
 
-    public Exemplar(CodigoDaObra codigoDaObra, Isbn livro, Localizacao localizacao, Emprestimo emprestimo, Status status) {
+    public Exemplar(CodigoDaObra codigoDaObra, Isbn livro, Localizacao localizacao, Emprestimo emprestimo, Status status, Double valor) {
         this.codigoDaObra = codigoDaObra;
         this.livro = livro;
         this.localizacao = localizacao;
         this.emprestimo = emprestimo;
         this.status = status;
+        this.valor = valor;
     }
 
     public Exemplar(CodigoDaObra codigoDaObra, Isbn livro, Localizacao localizacao) {
@@ -70,6 +72,10 @@ public class Exemplar {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Double getValor() {
+        return valor;
     }
 
     public String isAlugado() {

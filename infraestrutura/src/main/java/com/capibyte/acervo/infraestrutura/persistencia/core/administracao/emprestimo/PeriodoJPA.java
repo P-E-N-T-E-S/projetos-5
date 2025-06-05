@@ -12,7 +12,15 @@ public class PeriodoJPA {
         return inicio;
     }
 
+    public void setInicio(LocalDate inicio) {
+        this.inicio = inicio;
+    }
+
     public LocalDate getFim() {
         return fim;
+    }
+
+    public void setFim(LocalDate fim) {
+        this.fim = fim;
     }
 }

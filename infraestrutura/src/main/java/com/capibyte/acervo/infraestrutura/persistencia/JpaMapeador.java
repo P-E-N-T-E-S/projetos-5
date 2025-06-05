@@ -87,7 +87,7 @@ public class JpaMapeador extends ModelMapper{
                 var emprestimo = map(source.getEmprestimo(), Emprestimo.class);
                 var livro = new Isbn(source.getLivro().getIsbn());
                 Localizacao localizacao = new Localizacao(source.getLocalizacao().getPrateleira(), source.getLocalizacao().getAndar());
-                return new Exemplar(id, livro, localizacao, emprestimo, source.getStatus());
+                return new Exemplar(id, livro, localizacao, emprestimo, source.getStatus(), source.getValor());
             }
         });
 
@@ -122,6 +122,7 @@ public class JpaMapeador extends ModelMapper{
                 if (source.getEmprestimo() != null) {
                     exemplarJPA.setEmprestimo(map(source.getEmprestimo(), EmprestimoJPA.class));
                 }
+                exemplarJPA.setValor(source.getValor());
                 return exemplarJPA;
             }
         });

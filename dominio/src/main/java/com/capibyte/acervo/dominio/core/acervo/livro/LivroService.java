@@ -1,5 +1,6 @@
 package com.capibyte.acervo.dominio.core.acervo.livro;
 
+import com.capibyte.acervo.dominio.log.PesquisaLogService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,9 +9,11 @@ import java.util.List;
 public class LivroService {
 
     private LivroRepository livroRepository;
+    private PesquisaLogService pesquisaLogService;
 
-    public LivroService(LivroRepository livroRepository) {
+    public LivroService(LivroRepository livroRepository, PesquisaLogService pesquisaLogService) {
         this.livroRepository = livroRepository;
+        this.pesquisaLogService = pesquisaLogService;
     }
 
     public void salvar(Livro livro){
@@ -30,6 +33,7 @@ public class LivroService {
     }
 
     public List<Livro> buscarPorTema(String tema){
+        pesquisaLogService.salvar(tema);
         return livroRepository.buscarPorTema(tema);
     }
 

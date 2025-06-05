@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"com.capibyte.acervo.dominio",
 		"com.capibyte.acervo.infraestrutura"
 })
-@EntityScan(basePackages = "com.capibyte.acervo.infraestrutura.persistencia.core")
+@EntityScan(basePackages = {"com.capibyte.acervo.infraestrutura.persistencia.core", "com.capibyte.acervo.infraestrutura.persistencia.log"})
 public class ApresentacaoApplication {
 
 	public static void main(String[] args) {
