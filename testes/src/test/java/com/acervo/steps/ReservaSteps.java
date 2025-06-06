@@ -103,7 +103,7 @@ public class ReservaSteps extends FuncionalidadesSistema {
 
     @When("um usuário tenta fazer a reserva do livro Bad Code")
     public void usuarioAcessaDados(){
-
+        // e3.alugar(u1.getMatricula(), u1.getCargo());
     }
 
     @Then("o sistema deve exibir que o livro está reservado")

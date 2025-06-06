@@ -57,17 +57,23 @@ public class BuscaLivrosSteps extends FuncionalidadesSistema {
 
     @When("eu for no sistema e resgistrar que ele não se encontra no local indicado")
     public void euForNoSistemaResgistrarNoLocalIndicado() {
+        Livro livro = new Livro(new Isbn("1"), "Codigo Podi", autores, "Sinopse do livro que legal uau", "1", 2021, 12, temas);
+        this.e = new Exemplar(new CodigoDaObra(1L), new Isbn("1"), new Localizacao("Primeiro andar", "Prateleira1"));
+        livroService.salvar(livro);
+        exemplarService.salvar(e);
 
+        // Simulando demonstrar que o livro não está no lugar
+        e.setStatus(Status.INDISPONIVEL);
     }
 
     @Then("o sistema deve indicar que o livro está fora do local indicado")
     public void oSistemaDeIndicarLocalIndicado() {
-
+        assertEquals(e.isAlugado(), "Livro perdido ou indisponivel");
     }
 
     @And("dispara um alerta a biblioteca")
     public void disparaUmAlertaABiblioteca() {
-
+        // Alerta será uma notificação enviada separadamente
     }
 
     @Given("eu seja um usuário bibliotecário no sistema")
@@ -93,11 +99,11 @@ public class BuscaLivrosSteps extends FuncionalidadesSistema {
 
     @Then("o aviso do sumiço do livro deverá desaparecer")
     public void avisodeSumicoDesaparece(){
-
+        assertEquals(e.isAlugado(), "Livro disponivel");
     }
 
     @And("o alerta da bibliotecario também")
     public void alertaBibliotecarioSome(){
-
+        // Enviado separadamente
     }
 }

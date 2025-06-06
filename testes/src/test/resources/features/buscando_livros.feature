@@ -12,7 +12,7 @@ Feature: buscar o livro no acervo da Instituição
     Then o sistema deve indicar que o livro está fora do local indicado
     And dispara um alerta a biblioteca
 
-  Scenario:
+  Scenario: Devolvendo livro desaparecido
     Given eu seja um usuário bibliotecário no sistema
     And o livro "Código Sujo" esteja cadastrado no sistema como sumido
     When eu reportar que o livro foi encontrado e devolvido a seu lugar

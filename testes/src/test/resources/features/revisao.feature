@@ -9,9 +9,9 @@ Feature: Revisar livros e trabalhos no sistema
   Scenario: Aprovar trabalho academico que cumpre normas
     Given QUe eu seja uma usuaria biblitoecaria no sistema
     And o trabalho "Trabalho n°1001" esteja listado para revisao
-    When eu verificar que o trabalho "Trabalho n° 1001" possui coerencia textual
+    When eu verificar que o trabalho "Trabalho n°1001" possui coerencia textual
     And confirmar que está conforme as normas ABNT
-    Then eu devo aprovar o trabalho "Trabalho n° 1001"
+    Then eu devo aprovar o trabalho "Trabalho n°1001"
 
   Scenario: Rejeitar trabalho acadêmico que não cumpre as normas
     Given que eu seja uma usuaria bibliotecária no sistema

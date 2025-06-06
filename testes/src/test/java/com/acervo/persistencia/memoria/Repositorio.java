@@ -35,6 +35,7 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     Map<Long, Exemplar> exemplars = new HashMap<>();
     Map<Isbn, Livro> livros = new HashMap<>();
+    Map<String, Obra> obras = new HashMap<>();
     Map<Long, Solicitacao> solicitacoes = new HashMap<>();
     Map<String, Usuario> usuarios = new HashMap<>();
     Map<ListaId, ListaLeitura> listasDeLeitura = new HashMap<>();
@@ -130,12 +131,12 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public void salvar(Obra obra) {
-
+        obras.put(obra.getDoi().getCodigo(), obra);
     }
 
     @Override
     public Obra buscarPorId(DOI doi) {
-        return null;
+        return obras.get(doi.getCodigo());
     }
 
     @Override
@@ -155,12 +156,25 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public List<Obra> buscarPorValidado(boolean validado) {
-        return List.of();
-    }
+            List<Obra> obras_buscadas = new ArrayList<>();
+            for (Obra obra : obras.values()) {
+                if (obra.isValidado() == validado) {
+                    obras_buscadas.add(obra);
+                }
+            }
+            return obras_buscadas;
+        }
 
     @Override
     public List<Obra> buscarObraPorTitulo(String titulo) {
-        return List.of();
+        List<Obra> obras_buscadas = new ArrayList<>();
+
+        for (Obra obra : obras.values()) {
+            if (obra.getTitulo().equals(titulo)) {
+                obras_buscadas.add(obra);
+            }
+        }
+        return obras_buscadas;
     }
 
     @Override

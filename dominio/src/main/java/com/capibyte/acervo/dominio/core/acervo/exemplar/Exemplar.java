@@ -81,8 +81,10 @@ public class Exemplar {
     public String isAlugado() {
         if (this.status == Status.EMPRESTADO){
             return "Livro Reservado";
+        }else if (this.status == Status.INDISPONIVEL){
+            return "Livro perdido ou indisponivel";
         }else{
-            return "Livro Disponivel";
+            return "Livro disponivel";
         }
     }
 
