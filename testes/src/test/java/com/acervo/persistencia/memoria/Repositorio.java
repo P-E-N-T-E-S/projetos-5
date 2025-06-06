@@ -101,7 +101,9 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public List<Livro> buscarPorTema(String tema) {
-        return List.of();
+        return livros.values().stream()
+                .filter(livro -> livro.getTemas() != null && livro.getTemas().contains(tema))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -121,7 +123,9 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public List<Livro> buscarPorAnoPublicacao(int anoInicio, int anoFim) {
-        return List.of();
+        return livros.values().stream()
+                .filter(livro -> livro.getAnoDePublicacao() >= anoInicio && livro.getAnoDePublicacao() <= anoFim)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -37,6 +37,10 @@ public class LivroService {
         return livroRepository.buscarPorTema(tema);
     }
 
+    public List<Livro> obterTodos() {
+        return livroRepository.obterTodos();
+    }
+
     public List<Livro> buscarPorTitulo(String titulo) {
         return livroRepository.buscarPorTitulo(titulo);
     }
