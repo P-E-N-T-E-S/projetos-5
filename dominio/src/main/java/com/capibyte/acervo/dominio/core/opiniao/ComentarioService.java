@@ -15,7 +15,10 @@ public class ComentarioService {
         this.comentarioRepository = comentarioRepository;
     }
 
-    public void adicionarComentario(Comentario comentario){
+    public void adicionarComentario(Comentario comentario) throws Exception {
+        if (comentario.getConteudo() == null || comentario.getConteudo().isBlank()) {
+            throw new Exception("Conteúdo do comentário não pode ser vazio");
+        }
         comentarioRepository.salvar(comentario);
     }
 

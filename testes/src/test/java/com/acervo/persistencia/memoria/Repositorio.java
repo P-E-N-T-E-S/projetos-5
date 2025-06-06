@@ -21,15 +21,14 @@ import com.capibyte.acervo.dominio.core.administracao.salvo.ListaLeitura;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Matricula;
 import com.capibyte.acervo.dominio.core.administracao.usuario.Usuario;
 import com.capibyte.acervo.dominio.core.administracao.usuario.UsuarioRepository;
+import com.capibyte.acervo.dominio.core.administracao.usuario.enums.Cargo;
 import com.capibyte.acervo.dominio.core.opiniao.Comentario;
 import com.capibyte.acervo.dominio.core.opiniao.ComentarioRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 public class Repositorio implements AutorRepository, ExemplarRepository, LivroRepository, ObraRepository, SolicitacaoRepository, LeituraRepository, UsuarioRepository, ComentarioRepository {
 
@@ -39,6 +38,7 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
     Map<Long, Solicitacao> solicitacoes = new HashMap<>();
     Map<String, Usuario> usuarios = new HashMap<>();
     Map<ListaId, ListaLeitura> listasDeLeitura = new HashMap<>();
+    Map<String, List<Comentario>> comentariosPorIsbn = new HashMap<>();
 
     @Override
     public void salvar(Autor autor) {
@@ -251,11 +251,26 @@ public class Repositorio implements AutorRepository, ExemplarRepository, LivroRe
 
     @Override
     public void salvar(Comentario comentario) {
-
+        String isbnCodigo = comentario.getIsbn().getCodigo();
+        List<Comentario> comentarios = this.comentariosPorIsbn.computeIfAbsent(isbnCodigo, k -> new ArrayList<>());
+        comentarios.add(comentario);
     }
-
     @Override
     public List<Comentario> listarPorIsbn(String isbn) {
-        return List.of();
+        List<Comentario> comentarios = this.comentariosPorIsbn.getOrDefault(isbn, new ArrayList<>());
+
+        return comentarios.stream()
+                .sorted(Comparator.comparing(comentario -> {
+                    Matricula matriculaDoAutor = comentario.getUsuario();
+                    if (matriculaDoAutor == null) {
+                        return true;
+                    }
+                    Usuario autorDoComentario = this.buscarPorMatricula(matriculaDoAutor.getCodigo());
+                    if (autorDoComentario == null) {
+                        return true;
+                    }
+                    return autorDoComentario.getCargo() != Cargo.PROFESSOR;
+                }))
+                .collect(Collectors.toList());
     }
 }

@@ -74,7 +74,7 @@ public class LivroController {
     }
 
     @PostMapping("/{isbn}/comentar")
-    public ResponseEntity<String> adicionarComentario(@RequestBody String conteudo, @PathVariable String isbn) {
+    public ResponseEntity<String> adicionarComentario(@RequestBody String conteudo, @PathVariable String isbn) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UsuarioDetalhes usuarioDetalhes) {
             Usuario tomador = usuarioDetalhes.getUsuario();
